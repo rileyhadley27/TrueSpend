@@ -1,0 +1,7 @@
+node_modules/
+.next/
+public/pdf.worker.min.mjs
+public/ocr/
+supabase/migrations/
+supabase/tests/
+supabase/config.toml
