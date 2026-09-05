@@ -23,7 +23,29 @@ export interface ImportCandidate {
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
 export function parseCsvText(text: string) {
-  return Papa.parse<Record<string, string>>(text, {
+  const matrix = Papa.parse<string[]>(text, {
+    skipEmptyLines: "greedy",
+  });
+  const headerIndex = matrix.data.findIndex((row) => {
+    const headers = row.map((cell) => cell.trim().toLowerCase());
+    return (
+      headers.some((header) => header.includes("date")) &&
+      headers.some((header) =>
+        ["amount", "debit", "credit", "withdrawal"].some((term) =>
+          header.includes(term),
+        ),
+      ) &&
+      headers.some((header) =>
+        ["description", "merchant", "name", "memo", "note", "type"].some(
+          (term) => header.includes(term),
+        ),
+      )
+    );
+  });
+  const preparedText =
+    headerIndex > 0 ? Papa.unparse(matrix.data.slice(headerIndex)) : text;
+
+  return Papa.parse<Record<string, string>>(preparedText, {
     header: true,
     skipEmptyLines: "greedy",
     transformHeader: (header) => header.trim(),
@@ -37,7 +59,7 @@ export function suggestMapping(headers: string[]): ColumnMapping {
     ) ?? "";
   return {
     date: find("posted date", "transaction date", "date"),
-    description: find("description", "merchant", "name", "memo"),
+    description: find("description", "merchant", "name", "memo", "note"),
     amount: find("amount"),
     debit: find("debit", "withdrawal", "charge"),
     credit: find("credit", "deposit"),
@@ -48,11 +70,23 @@ export function mapRows(
   rows: Record<string, string>[],
   mapping: ColumnMapping,
 ): ImportCandidate[] {
-  return rows.map((raw, index) => {
+  return rows.flatMap((raw, index) => {
+    const hasTransactionData = [
+      mapping.date,
+      mapping.description,
+      mapping.amount,
+      mapping.debit,
+      mapping.credit,
+    ]
+      .filter(Boolean)
+      .some((header) => raw[header!]?.trim());
+    if (!hasTransactionData) return [];
+
     const errors: string[] = [];
     const date = normalizeDate(raw[mapping.date]);
     if (!date || !isoDate.safeParse(date).success) errors.push("Check date");
-    const description = raw[mapping.description]?.trim() ?? "";
+    const description =
+      raw[mapping.description]?.trim() || raw.Type?.trim() || "";
     if (!description) errors.push("Add description");
     let amountCents: number | null = null;
     if (mapping.amount) amountCents = parseMoney(raw[mapping.amount] ?? "");
@@ -69,15 +103,17 @@ export function mapRows(
             : null;
     }
     if (amountCents === null || amountCents === 0) errors.push("Check amount");
-    return {
-      rowNumber: index + 2,
-      date: date ?? "",
-      description,
-      amountCents: amountCents ?? 0,
-      confidence: errors.length ? 55 : 100,
-      raw,
-      errors,
-    };
+    return [
+      {
+        rowNumber: index + 2,
+        date: date ?? "",
+        description,
+        amountCents: amountCents ?? 0,
+        confidence: errors.length ? 55 : 100,
+        raw,
+        errors,
+      },
+    ];
   });
 }
 
@@ -85,6 +121,8 @@ function normalizeDate(value?: string) {
   if (!value) return null;
   const trimmed = value.trim();
   if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) return trimmed;
+  const isoTimestamp = trimmed.match(/^(\d{4}-\d{2}-\d{2})[T\s]/);
+  if (isoTimestamp) return isoTimestamp[1];
   const match = trimmed.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{2,4})$/);
   if (!match) return null;
   const year = match[3].length === 2 ? `20${match[3]}` : match[3];

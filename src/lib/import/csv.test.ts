@@ -37,4 +37,39 @@ describe("CSV imports", () => {
       }).map((row) => row.amountCents),
     ).toEqual([-40000, 30000]);
   });
+
+  it("detects and maps a Venmo statement with preamble rows", () => {
+    const parsed = parseCsvText(
+      [
+        "Account Statement - (@example),,,,,,,,,",
+        "Account Activity,,,,,,,,,",
+        ",ID,Datetime,Type,Status,Note,From,To,Amount (total),Beginning Balance",
+        ",,,,,,,,,$100.00",
+        ',1,2026-08-02T14:56:15,Standard Transfer,Issued,,,,"- $25.00",',
+        ",2,2026-08-03T09:30:00,Payment,Complete,Dinner,Friend,Example,$12.50,",
+      ].join("\n"),
+    );
+    const mapping = suggestMapping(parsed.meta.fields ?? []);
+    const candidates = mapRows(parsed.data, mapping);
+
+    expect(mapping).toMatchObject({
+      date: "Datetime",
+      description: "Note",
+      amount: "Amount (total)",
+    });
+    expect(candidates).toMatchObject([
+      {
+        date: "2026-08-02",
+        description: "Standard Transfer",
+        amountCents: -2500,
+        errors: [],
+      },
+      {
+        date: "2026-08-03",
+        description: "Dinner",
+        amountCents: 1250,
+        errors: [],
+      },
+    ]);
+  });
 });
