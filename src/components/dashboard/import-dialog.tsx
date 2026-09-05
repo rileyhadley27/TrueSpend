@@ -225,7 +225,7 @@ export function ImportDialog({
             Import a statement
           </DialogTitle>
           <DialogDescription>
-            TrueSpend keeps the original facts and asks you to approve extracted
+            Divvy keeps the original facts and asks you to approve extracted
             rows before they reach your ledger.
           </DialogDescription>
         </DialogHeader>

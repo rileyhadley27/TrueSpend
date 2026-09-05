@@ -22,9 +22,7 @@ export default async function AuthPage({
           <span className="grid size-10 place-items-center rounded-xl bg-[#3B82F6] shadow-[0_10px_30px_rgba(59,130,246,.3)]">
             <CircleDollarSign />
           </span>
-          <span className="text-2xl font-bold tracking-[-0.04em]">
-            TrueSpend
-          </span>
+          <span className="text-2xl font-bold tracking-[-0.04em]">Divvy</span>
         </div>
         <div className="relative max-w-xl">
           <span className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#3B82F6]/30 bg-[#3B82F6]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[.14em] text-[#93C5FD]">
@@ -51,7 +49,7 @@ export default async function AuthPage({
                 <span className="grid size-9 place-items-center rounded-xl bg-[#3B82F6] text-white">
                   <CircleDollarSign className="size-5" />
                 </span>
-                TrueSpend
+                Divvy
               </div>
             </div>
             <span className="grid size-11 place-items-center rounded-2xl bg-[#E8F1FF] text-[#3B82F6]">
@@ -111,7 +109,7 @@ export default async function AuthPage({
               </Button>
             </form>
             <div className="mt-6 text-center text-sm text-muted-foreground">
-              {signup ? "Already approved?" : "New to TrueSpend?"}{" "}
+              {signup ? "Already approved?" : "New to Divvy?"}{" "}
               <a
                 className="font-bold text-[#2563EB] hover:text-[#1D4ED8]"
                 href={signup ? "/auth" : "/auth?mode=signup"}

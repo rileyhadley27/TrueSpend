@@ -72,7 +72,7 @@ import type { ImportCandidate } from "@/lib/import/csv";
 
 type View = "overview" | "transactions" | "reports";
 
-export function TrueSpendDashboard({
+export function DivvyDashboard({
   initialData,
   demoMode = false,
   userName = "Riley",
@@ -479,7 +479,7 @@ function Header({
             <CircleDollarSign className="size-5" />
           </span>
           <span className="text-lg font-bold tracking-[-0.04em] sm:text-xl">
-            TrueSpend
+            Divvy
           </span>
           {demoMode && <Badge variant="secondary">Demo</Badge>}
         </button>

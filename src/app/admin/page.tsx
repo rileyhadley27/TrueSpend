@@ -37,7 +37,7 @@ export default async function AdminPage() {
             <span className="grid size-9 place-items-center rounded-xl bg-[#3B82F6] shadow-[0_8px_20px_rgba(59,130,246,.3)]">
               <CircleDollarSign className="size-5" />
             </span>
-            TrueSpend
+            Divvy
           </Link>
           <Badge className="border-0 bg-[#3B82F6]/18 text-[#BFDBFE]">
             <ShieldCheck /> Administrator

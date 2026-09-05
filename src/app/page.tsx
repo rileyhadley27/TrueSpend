@@ -1,12 +1,12 @@
 import { redirect } from "next/navigation";
-import { TrueSpendDashboard } from "@/components/dashboard/truespend-dashboard";
+import { DivvyDashboard } from "@/components/dashboard/divvy-dashboard";
 import { demoData } from "@/lib/data/demo";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function Home() {
   if (!isSupabaseConfigured())
-    return <TrueSpendDashboard initialData={demoData} demoMode />;
+    return <DivvyDashboard initialData={demoData} demoMode />;
   const supabase = await createClient();
   const {
     data: { user },
@@ -83,7 +83,7 @@ export default async function Home() {
     })),
   };
   return (
-    <TrueSpendDashboard
+    <DivvyDashboard
       initialData={data}
       userName={profile.display_name}
       isAdmin={user.app_metadata.role === "admin"}

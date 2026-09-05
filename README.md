@@ -1,6 +1,6 @@
-# TrueSpend
+# Divvy
 
-TrueSpend is a private reconciliation-first personal finance app. It preserves statement facts and calculates:
+Divvy is a private reconciliation-first personal finance app. It preserves statement facts and calculates:
 
 > income − reimbursement-adjusted spending = leftover
 
@@ -15,7 +15,7 @@ npm ci
 npm run dev
 ```
 
-Open <http://localhost:3000>. With no environment variables, TrueSpend opens in a fully interactive demo mode and does not upload anything.
+Open <http://localhost:3000>. With no environment variables, Divvy opens in a fully interactive demo mode and does not upload anything.
 
 ## Connect Supabase
 
@@ -51,7 +51,7 @@ For a linked hosted project, run the Supabase database and security advisors bef
 
 For each redacted real statement set:
 
-1. Record the trusted manual income, spending, and leftover totals outside TrueSpend.
+1. Record the trusted manual income, spending, and leftover totals outside Divvy.
 2. Import statements, review every extracted row, and commit them.
 3. Resolve the reconciliation inbox, including partial/grouped reimbursements and transfers.
 4. Compare the monthly True Spending report to the trusted totals.
@@ -59,6 +59,6 @@ For each redacted real statement set:
 
 ## Repository status
 
-The intended private remote is `git@github.com:rileyhadley27/TrueSpend.git`. This workspace could not authenticate to it because GitHub rejected the machine’s SSH key. After authorizing an SSH key for that repository, initialize or clone carefully, inspect the remote first, and commit this workspace without adding `.env.local` or `.private-fixtures/`.
+The private remote currently remains `git@github.com:rileyhadley27/TrueSpend.git`. The repository slug can be renamed separately after checking any deployment and integration links that depend on it. Never commit `.env.local` or `.private-fixtures/`.
 
-TrueSpend provides organizational information, not financial, tax, or investment advice.
+Divvy provides organizational information, not financial, tax, or investment advice.

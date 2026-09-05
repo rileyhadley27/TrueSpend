@@ -63,8 +63,8 @@ export function AccountDialog({
               Add a financial account
             </DialogTitle>
             <DialogDescription>
-              Add the account label that appears on your statement. TrueSpend
-              never asks for banking credentials.
+              Add the account label that appears on your statement. Divvy never
+              asks for banking credentials.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-6 sm:grid-cols-2">

@@ -3,9 +3,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "TrueSpend — Know what you really spent",
+  title: "Divvy — Make every dollar add up",
   description:
-    "Reconcile reimbursements, transfers, and statements into one true view of your money.",
+    "Divvy reconciles reimbursements, transfers, and statements into one clear view of your money.",
 };
 
 export default function RootLayout({

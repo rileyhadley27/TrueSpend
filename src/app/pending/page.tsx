@@ -20,7 +20,7 @@ export default function PendingPage() {
           </h1>
           <p className="mt-3 leading-7 text-muted-foreground">
             Once your email is verified and an administrator approves access,
-            your private TrueSpend workspace will be ready.
+            your private Divvy workspace will be ready.
           </p>
           <form action={signOut} className="mt-7">
             <Button variant="outline" type="submit" className="rounded-xl">
