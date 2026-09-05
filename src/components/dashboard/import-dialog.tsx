@@ -237,7 +237,7 @@ export function ImportDialog({
                 id="import-account"
                 value={accountId}
                 onChange={(event) => setAccountId(event.target.value)}
-                className="h-10 w-full rounded-xl border bg-white px-3 text-sm"
+                className="field-control h-10 w-full rounded-xl border px-3 text-sm outline-none"
               >
                 <option value="">Choose an account</option>
                 {accounts.map((account) => (
@@ -262,10 +262,10 @@ export function ImportDialog({
           {!file && (
             <label
               htmlFor="statement-file"
-              className="grid min-h-44 cursor-pointer place-items-center rounded-2xl border-2 border-dashed border-[#cfc8ef] bg-[#f8f6ff] p-6 text-center"
+              className="grid min-h-44 cursor-pointer place-items-center rounded-2xl border-2 border-dashed border-[#94A3B8]/50 bg-[#F8FAFC] p-6 text-center transition hover:border-[#3B82F6] hover:bg-[#E8F1FF]/50"
             >
               <span>
-                <UploadCloud className="mx-auto size-8 text-[#7657ff]" />
+                <UploadCloud className="mx-auto size-8 text-[#3B82F6]" />
                 <strong className="mt-3 block">
                   Drop in a CSV or PDF statement
                 </strong>
@@ -276,7 +276,7 @@ export function ImportDialog({
             </label>
           )}
           {progress && (
-            <div className="flex items-center gap-3 rounded-2xl bg-[#f0edff] p-4 text-sm font-semibold text-[#5d43d2]">
+            <div className="flex items-center gap-3 rounded-2xl bg-[#E8F1FF] p-4 text-sm font-semibold text-[#1D4ED8]">
               <LoaderCircle className="size-5 animate-spin" />
               {progress}
             </div>
@@ -290,12 +290,12 @@ export function ImportDialog({
           )}
 
           {file && !progress && (
-            <div className="flex items-center justify-between rounded-2xl bg-[#f3f5f3] p-4">
+            <div className="flex items-center justify-between rounded-2xl bg-[#E2E8F0]/60 p-4">
               <div className="flex items-center gap-3">
                 {file.name.endsWith(".pdf") ? (
-                  <FileText className="text-[#7657ff]" />
+                  <FileText className="text-[#3B82F6]" />
                 ) : (
-                  <FileSpreadsheet className="text-[#31a873]" />
+                  <FileSpreadsheet className="text-[#1B2A41]" />
                 )}
                 <div>
                   <p className="font-bold">{file.name}</p>
@@ -306,7 +306,7 @@ export function ImportDialog({
                 </div>
               </div>
               {candidates.length > 0 && (
-                <span className="flex items-center gap-1 text-sm font-bold text-[#2f8a5c]">
+                <span className="flex items-center gap-1 text-sm font-bold text-[#2563EB]">
                   <CheckCircle2 className="size-4" />
                   {validCount} rows ready
                 </span>
@@ -335,7 +335,7 @@ export function ImportDialog({
                           [field]: event.target.value,
                         }))
                       }
-                      className="h-9 w-full rounded-lg border bg-white px-2 text-sm"
+                      className="field-control h-9 w-full rounded-lg border px-2 text-sm outline-none"
                     >
                       <option value="">Not mapped</option>
                       {headers.map((header) => (
@@ -420,7 +420,7 @@ export function ImportDialog({
                               {candidate.errors.join(", ")}
                             </span>
                           ) : (
-                            <span className="text-xs font-bold text-[#2f8a5c]">
+                            <span className="text-xs font-bold text-[#2563EB]">
                               Ready
                             </span>
                           )}
@@ -440,7 +440,7 @@ export function ImportDialog({
           <Button
             onClick={() => void commit()}
             disabled={!file || !accountId || validCount === 0 || submitting}
-            className="bg-[#7657ff] text-white"
+            className="bg-[#3B82F6] text-white hover:bg-[#2563EB]"
           >
             {submitting
               ? "Saving securely…"

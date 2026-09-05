@@ -41,7 +41,7 @@ export function ReviewDialog({
       <DialogContent className="rounded-3xl sm:max-w-xl">
         <DialogHeader>
           <div className="mb-2 flex items-center gap-2">
-            <Badge className="bg-[#e8ffbd] text-[#264d33]">
+            <Badge className="bg-[#E8F1FF] text-[#1D4ED8]">
               {reconciliation.confidence}% confidence
             </Badge>
             <Badge variant="outline" className="capitalize">
@@ -61,10 +61,10 @@ export function ReviewDialog({
             return (
               <div
                 key={transaction!.id}
-                className="flex items-center gap-3 rounded-2xl border bg-[#fafbfa] p-4"
+                className="flex items-center gap-3 rounded-2xl border bg-[#F8FAFC] p-4"
               >
                 <span
-                  className={`grid size-9 place-items-center rounded-xl ${transaction!.amountCents > 0 ? "bg-[#e5f8ed] text-[#278456]" : "bg-[#fff0eb] text-[#cc5b46]"}`}
+                  className={`grid size-9 place-items-center rounded-xl ${transaction!.amountCents > 0 ? "bg-[#E8F1FF] text-[#2563EB]" : "bg-[#E2E8F0] text-[#1B2A41]"}`}
                 >
                   {transaction!.amountCents > 0 ? (
                     <ArrowDownLeft className="size-4" />
@@ -80,7 +80,7 @@ export function ReviewDialog({
                 </div>
                 <div className="text-right">
                   <p
-                    className={`font-extrabold ${transaction!.amountCents > 0 ? "text-[#278456]" : ""}`}
+                    className={`font-extrabold ${transaction!.amountCents > 0 ? "text-[#2563EB]" : ""}`}
                   >
                     {formatMoney(transaction!.amountCents, { sign: true })}
                   </p>
@@ -91,7 +91,7 @@ export function ReviewDialog({
               </div>
             );
           })}
-          <div className="mt-3 flex items-center gap-2 rounded-2xl bg-[#f0edff] p-4 text-sm text-[#5d43d2]">
+          <div className="mt-3 flex items-center gap-2 rounded-2xl bg-[#E8F1FF] p-4 text-sm text-[#1D4ED8]">
             <Link2 className="size-4" />
             <span>
               <strong>Reporting effect:</strong>{" "}
@@ -114,7 +114,7 @@ export function ReviewDialog({
                 Not a match
               </Button>
               <Button
-                className="bg-[#17231c] text-white"
+                className="bg-[#3B82F6] text-white hover:bg-[#2563EB]"
                 onClick={() => onDecision("confirmed")}
               >
                 Confirm match

@@ -108,7 +108,7 @@ export function ManualDialog({
                 id="manual-account"
                 value={accountId}
                 onChange={(event) => setAccountId(event.target.value)}
-                className="h-9 w-full rounded-lg border bg-white px-2 text-sm"
+                className="field-control h-9 w-full rounded-lg border px-2 text-sm outline-none"
               >
                 {accounts.map((account) => (
                   <option key={account.id} value={account.id}>
@@ -123,7 +123,7 @@ export function ManualDialog({
                 id="manual-category"
                 value={categoryId}
                 onChange={(event) => setCategoryId(event.target.value)}
-                className="h-9 w-full rounded-lg border bg-white px-2 text-sm"
+                className="field-control h-9 w-full rounded-lg border px-2 text-sm outline-none"
               >
                 {categories.map((category) => (
                   <option key={category.id} value={category.id}>
@@ -141,7 +141,10 @@ export function ManualDialog({
             >
               Cancel
             </Button>
-            <Button type="submit" className="bg-[#7657ff] text-white">
+            <Button
+              type="submit"
+              className="bg-[#3B82F6] text-white hover:bg-[#2563EB]"
+            >
               Add to ledger
             </Button>
           </DialogFooter>

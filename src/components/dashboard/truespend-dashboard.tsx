@@ -319,7 +319,7 @@ export function TrueSpendDashboard({
   }
 
   return (
-    <div className="min-h-screen bg-[#f6f7fb] text-[#17211b]">
+    <div className="min-h-screen text-[#0A0F1E]">
       <Header
         view={view}
         setView={setView}
@@ -327,21 +327,20 @@ export function TrueSpendDashboard({
         demoMode={demoMode}
         isAdmin={isAdmin}
       />
-      <main className="mx-auto max-w-[1440px] px-5 py-7 lg:px-8 lg:py-9">
-        <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <main className="mx-auto max-w-[1320px] px-5 py-8 pb-28 lg:px-8 lg:py-12">
+        <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-[#67806f]">
-              <Sparkles className="size-4 text-[#7257ff]" /> Your money,
-              reconciled
+            <div className="eyebrow mb-3 flex items-center gap-2">
+              <Sparkles className="size-3.5" /> Financial command center
             </div>
-            <h1 className="text-3xl font-extrabold tracking-[-0.045em] sm:text-4xl">
+            <h1 className="text-3xl font-bold tracking-[-0.045em] sm:text-[2.65rem] sm:leading-none">
               {view === "overview"
                 ? `Good morning, ${userName}.`
                 : view === "transactions"
                   ? "Every dollar, in one place."
                   : "Your true monthly picture."}
             </h1>
-            <p className="mt-2 text-[#69736d]">
+            <p className="mt-3 text-sm text-[#64748B] sm:text-base">
               {view === "overview"
                 ? `${monthLabel} has ${tasks.length} item${tasks.length === 1 ? "" : "s"} ready for review.`
                 : view === "transactions"
@@ -350,7 +349,7 @@ export function TrueSpendDashboard({
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <label className="flex h-10 items-center gap-2 rounded-xl border bg-white px-3 text-sm font-semibold">
+            <label className="field-control flex h-10 items-center gap-2 rounded-xl border px-3 text-sm font-semibold shadow-sm transition">
               <CalendarDays className="size-4" />
               <input
                 aria-label="Reporting month"
@@ -363,14 +362,14 @@ export function TrueSpendDashboard({
             <Button
               variant="outline"
               onClick={() => setCategoryOpen(true)}
-              className="h-10 rounded-xl bg-white px-4"
+              className="h-10 rounded-xl bg-white px-4 shadow-sm"
             >
               Add category
             </Button>
             <Button
               variant="outline"
               onClick={() => setAccountOpen(true)}
-              className="h-10 rounded-xl bg-white px-4"
+              className="h-10 rounded-xl bg-white px-4 shadow-sm"
             >
               <Landmark /> Add account
             </Button>
@@ -378,14 +377,14 @@ export function TrueSpendDashboard({
               variant="outline"
               onClick={() => setManualOpen(true)}
               disabled={!data.accounts.length}
-              className="h-10 rounded-xl bg-white px-4"
+              className="h-10 rounded-xl bg-white px-4 shadow-sm"
             >
               <Plus /> Add transaction
             </Button>
             <Button
               onClick={() => setImportOpen(true)}
               disabled={!data.accounts.length}
-              className="h-10 rounded-xl bg-[#7657ff] px-4 text-white hover:bg-[#6446ef]"
+              className="h-10 rounded-xl bg-[#3B82F6] px-4 text-white shadow-[0_8px_24px_rgba(59,130,246,.24)] hover:bg-[#2563EB]"
             >
               <Upload /> Import statement
             </Button>
@@ -470,22 +469,22 @@ function Header({
   isAdmin: boolean;
 }) {
   return (
-    <header className="sticky top-0 z-20 border-b border-black/5 bg-white/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-5 lg:px-8">
+    <header className="sticky top-0 z-30 px-3 pt-3 md:px-5">
+      <div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between rounded-2xl bg-[#0A0F1E]/96 px-3 text-white shadow-[0_18px_50px_rgba(10,15,30,.2)] ring-1 ring-white/8 backdrop-blur-xl sm:px-5">
         <button
           onClick={() => setView("overview")}
           className="flex items-center gap-3"
         >
-          <span className="grid size-9 place-items-center rounded-xl bg-[#18231c] text-white">
-            <CircleDollarSign className="size-5 text-[#c8ff68]" />
+          <span className="grid size-9 place-items-center rounded-xl bg-[#3B82F6] text-white shadow-[0_8px_20px_rgba(59,130,246,.32)]">
+            <CircleDollarSign className="size-5" />
           </span>
-          <span className="text-xl font-extrabold tracking-[-0.04em]">
+          <span className="text-lg font-bold tracking-[-0.04em] sm:text-xl">
             TrueSpend
           </span>
           {demoMode && <Badge variant="secondary">Demo</Badge>}
         </button>
         <nav
-          className="hidden items-center gap-1 rounded-xl bg-[#f3f5f3] p-1 md:flex"
+          className="hidden items-center gap-1 rounded-xl bg-white/6 p-1 ring-1 ring-white/6 md:flex"
           aria-label="Primary navigation"
         >
           {(
@@ -498,7 +497,7 @@ function Header({
             <button
               key={item.id}
               onClick={() => setView(item.id)}
-              className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold ${view === item.id ? "bg-white text-[#17211b] shadow-sm" : "text-[#667069]"}`}
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition ${view === item.id ? "bg-[#3B82F6] text-white shadow-[0_6px_18px_rgba(59,130,246,.25)]" : "text-[#94A3B8] hover:bg-white/6 hover:text-white"}`}
             >
               <item.icon className="size-4" />
               {item.label}
@@ -507,7 +506,7 @@ function Header({
           {isAdmin && (
             <Link
               href="/admin"
-              className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-[#667069]"
+              className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-[#94A3B8] transition hover:bg-white/6 hover:text-white"
             >
               <ShieldCheck className="size-4" />
               Approvals
@@ -515,12 +514,17 @@ function Header({
           )}
         </nav>
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" aria-label="Notifications">
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Notifications"
+            className="text-[#94A3B8] hover:bg-white/8 hover:text-white"
+          >
             <Bell />
           </Button>
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-2 rounded-xl border border-black/7 bg-white px-2 py-1.5 text-sm font-semibold shadow-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
-              <span className="grid size-7 place-items-center rounded-lg bg-[#ffd8bd] text-xs font-bold">
+            <DropdownMenuTrigger className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#1B2A41] px-2 py-1.5 text-sm font-semibold text-white outline-none transition hover:bg-[#243753] focus-visible:ring-3 focus-visible:ring-[#3B82F6]/40">
+              <span className="grid size-7 place-items-center rounded-lg bg-[#3B82F6] text-xs font-bold text-white">
                 {userName.slice(0, 2).toUpperCase()}
               </span>
               <span className="hidden sm:inline">{userName}</span>
@@ -561,14 +565,14 @@ function Header({
         </div>
       </div>
       <nav
-        className="flex border-t bg-white px-3 md:hidden"
+        className="fixed inset-x-3 bottom-3 z-40 flex rounded-2xl bg-[#0A0F1E]/96 p-1.5 text-white shadow-[0_18px_50px_rgba(10,15,30,.28)] ring-1 ring-white/10 backdrop-blur-xl md:hidden"
         aria-label="Mobile navigation"
       >
         {(["overview", "transactions", "reports"] as View[]).map((item) => (
           <button
             key={item}
             onClick={() => setView(item)}
-            className={`flex-1 py-2 text-xs font-bold capitalize ${view === item ? "text-[#6748ef]" : "text-[#7c8580]"}`}
+            className={`flex-1 rounded-xl py-2.5 text-xs font-semibold capitalize transition ${view === item ? "bg-[#3B82F6] text-white" : "text-[#94A3B8]"}`}
           >
             {item}
           </button>
@@ -576,7 +580,7 @@ function Header({
         {isAdmin && (
           <Link
             href="/admin"
-            className="flex-1 py-2 text-center text-xs font-bold text-[#7c8580]"
+            className="flex-1 rounded-xl py-2.5 text-center text-xs font-semibold text-[#94A3B8]"
           >
             Approvals
           </Link>
@@ -603,12 +607,12 @@ function Overview({
 }) {
   return (
     <>
-      <section className="grid gap-4 lg:grid-cols-[1.55fr_0.8fr]">
-        <Card className="rounded-[28px] border-0 bg-[#17231c] py-0 text-white shadow-[0_20px_50px_rgba(23,35,28,.14)] ring-0">
+      <section className="grid gap-5 lg:grid-cols-[1.55fr_0.8fr]">
+        <Card className="overflow-hidden rounded-[28px] border-0 bg-[#0A0F1E] py-0 text-white shadow-[0_24px_60px_rgba(10,15,30,.18)] ring-0">
           <CardContent className="grid min-h-[325px] gap-8 p-7 md:grid-cols-[1fr_230px] md:p-9">
             <div className="flex flex-col justify-between">
               <div>
-                <Badge className="border-0 bg-white/10 px-3 py-1.5 text-[#dcfbc1]">
+                <Badge className="border-0 bg-[#3B82F6]/18 px-3 py-1.5 text-[#BFDBFE]">
                   {monthLabel.toUpperCase()}
                 </Badge>
                 <p className="mt-7 text-sm font-medium text-white/55">
@@ -618,7 +622,7 @@ function Overview({
                   {formatMoney(summary.leftoverCents)}
                 </p>
                 <div className="mt-5 flex items-center gap-2 text-sm text-white/70">
-                  <span className="rounded-full bg-[#bff55a]/15 px-2.5 py-1 font-bold text-[#c8ff68]">
+                  <span className="rounded-full bg-[#3B82F6]/18 px-2.5 py-1 font-bold text-[#93C5FD]">
                     True view
                   </span>
                   <span>
@@ -642,10 +646,10 @@ function Overview({
               <div
                 className="relative grid size-[190px] place-items-center rounded-full"
                 style={{
-                  background: `conic-gradient(#c8ff68 0 ${summary.completionPercent}%, rgba(255,255,255,.12) ${summary.completionPercent}% 100%)`,
+                  background: `conic-gradient(#3B82F6 0 ${summary.completionPercent}%, rgba(148,163,184,.14) ${summary.completionPercent}% 100%)`,
                 }}
               >
-                <div className="grid size-[142px] place-items-center rounded-full bg-[#17231c] text-center">
+                <div className="grid size-[142px] place-items-center rounded-full bg-[#0A0F1E] text-center shadow-inner">
                   <div>
                     <p className="text-4xl font-extrabold">
                       {summary.completionPercent}%
@@ -656,7 +660,7 @@ function Overview({
                   </div>
                 </div>
                 {summary.completionPercent === 100 && (
-                  <span className="absolute -right-1 top-7 grid size-9 place-items-center rounded-full bg-[#c8ff68] text-[#17231c]">
+                  <span className="absolute -right-1 top-7 grid size-9 place-items-center rounded-full bg-[#3B82F6] text-white shadow-lg">
                     <Check className="size-5 stroke-[3]" />
                   </span>
                 )}
@@ -664,22 +668,22 @@ function Overview({
             </div>
           </CardContent>
         </Card>
-        <Card className="rounded-[28px] border-0 bg-[#eff3ff] py-0 shadow-sm ring-0">
+        <Card className="surface-card rounded-[28px] py-0">
           <CardContent className="flex h-full flex-col p-7">
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-sm font-semibold text-[#58655c]">
+                <p className="text-sm font-semibold text-[#64748B]">
                   True spend insight
                 </p>
                 <h2 className="mt-1 text-2xl font-extrabold">
                   Repayments found
                 </h2>
               </div>
-              <span className="grid size-11 place-items-center rounded-2xl bg-[#7657ff] text-white">
+              <span className="grid size-11 place-items-center rounded-2xl bg-[#3B82F6] text-white shadow-[0_8px_22px_rgba(59,130,246,.25)]">
                 <WalletCards />
               </span>
             </div>
-            <div className="mt-7 rounded-2xl bg-white/80 p-5">
+            <div className="mt-7 rounded-2xl bg-[#E2E8F0]/65 p-5 ring-1 ring-[#94A3B8]/15">
               <div className="flex justify-between text-sm">
                 <span className="font-semibold">Statement spending</span>
                 <span className="font-bold">
@@ -688,8 +692,8 @@ function Overview({
                   )}
                 </span>
               </div>
-              <div className="my-4 h-px bg-black/7" />
-              <div className="flex justify-between text-sm text-[#39835b]">
+              <div className="my-4 h-px bg-[#94A3B8]/25" />
+              <div className="flex justify-between text-sm text-[#2563EB]">
                 <span>Confirmed repayments</span>
                 <span className="font-bold">
                   −{formatMoney(summary.reimbursementCents)}
@@ -698,14 +702,14 @@ function Overview({
             </div>
             <div className="mt-auto flex items-end justify-between pt-6">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[.12em] text-[#6d7781]">
+                <p className="text-xs font-semibold uppercase tracking-[.12em] text-[#64748B]">
                   True spend
                 </p>
                 <p className="mt-1 text-3xl font-extrabold">
                   {formatMoney(summary.trueSpendCents)}
                 </p>
               </div>
-              <Badge variant="outline" className="bg-white">
+              <Badge variant="outline" className="bg-white text-[#1B2A41]">
                 Auditable
               </Badge>
             </div>
@@ -717,7 +721,7 @@ function Overview({
           <div className="mb-3 flex items-end justify-between">
             <div>
               <h2 className="text-xl font-extrabold">Reconciliation inbox</h2>
-              <p className="mt-1 text-sm text-[#748079]">
+              <p className="mt-1 text-sm text-[#64748B]">
                 Every match waits for your approval.
               </p>
             </div>
@@ -734,9 +738,9 @@ function Overview({
                 />
               ))
             ) : (
-              <div className="grid min-h-48 place-items-center rounded-3xl border border-dashed bg-white text-center">
+              <div className="surface-card grid min-h-48 place-items-center rounded-3xl border border-dashed text-center">
                 <div>
-                  <FileCheck2 className="mx-auto size-8 text-[#31a873]" />
+                  <FileCheck2 className="mx-auto size-8 text-[#3B82F6]" />
                   <p className="mt-3 font-extrabold">You’re all reconciled</p>
                   <p className="text-sm text-muted-foreground">
                     No uncertain matches are waiting.
@@ -746,7 +750,7 @@ function Overview({
             )}
           </div>
         </div>
-        <Card className="rounded-[24px] border-0 bg-white shadow-sm ring-1 ring-black/5">
+        <Card className="surface-card rounded-[24px]">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               Spending pulse{" "}
@@ -760,23 +764,23 @@ function Overview({
                 layout="vertical"
                 margin={{ left: 8, right: 20 }}
               >
-                <CartesianGrid horizontal={false} stroke="#eef0ef" />
+                <CartesianGrid horizontal={false} stroke="#E2E8F0" />
                 <XAxis type="number" hide />
                 <YAxis
                   type="category"
                   dataKey="name"
                   width={95}
-                  tick={{ fontSize: 11, fill: "#667069" }}
+                  tick={{ fontSize: 11, fill: "#64748B" }}
                   axisLine={false}
                   tickLine={false}
                 />
                 <ChartTooltip
                   formatter={(value) => formatMoney(Number(value) * 100)}
-                  cursor={{ fill: "#f5f3ff" }}
+                  cursor={{ fill: "#EFF6FF" }}
                 />
                 <Bar
                   dataKey="amount"
-                  fill="#7657ff"
+                  fill="#3B82F6"
                   radius={[0, 8, 8, 0]}
                   barSize={18}
                 />
@@ -804,7 +808,7 @@ function TaskRow({
       task.members.find((member) => member.role === "anchor")?.transactionId,
   );
   return (
-    <article className="flex items-center gap-4 rounded-2xl border border-black/5 bg-white p-4 shadow-[0_7px_24px_rgba(26,34,29,.04)]">
+    <article className="surface-card flex items-center gap-4 rounded-2xl p-4 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(27,42,65,.1)]">
       <span
         className={`task-icon ${task.type === "reimbursement" ? "task-icon--coral" : "task-icon--blue"}`}
       >
@@ -812,19 +816,19 @@ function TaskRow({
       </span>
       <div className="min-w-0 flex-1">
         <h3 className="font-bold">{task.title}</h3>
-        <p className="truncate text-sm text-[#778079]">{task.explanation}</p>
+        <p className="truncate text-sm text-[#64748B]">{task.explanation}</p>
       </div>
       <div className="hidden text-right sm:block">
         <p className="font-bold">
           {anchor ? formatMoney(Math.abs(anchor.amountCents)) : ""}
         </p>
-        <p className="text-xs font-semibold text-[#7d6df0]">
+        <p className="text-xs font-semibold text-[#2563EB]">
           {task.confidence}% match
         </p>
       </div>
       <Button
         onClick={onReview}
-        className="rounded-xl bg-[#18231c] px-4 text-white"
+        className="rounded-xl bg-[#1B2A41] px-4 text-white hover:bg-[#0A0F1E]"
       >
         Review
       </Button>
@@ -846,7 +850,7 @@ function TransactionsView({
   onCategoryChange: (transactionId: string, categoryId: string) => void;
 }) {
   return (
-    <Card className="rounded-3xl border-0 bg-white shadow-sm ring-1 ring-black/5">
+    <Card className="surface-card rounded-3xl">
       <CardHeader className="border-b">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -911,7 +915,7 @@ function TransactionsView({
                         onChange={(event) =>
                           onCategoryChange(transaction.id, event.target.value)
                         }
-                        className="rounded-lg border bg-white px-2 py-1.5 text-sm"
+                        className="field-control rounded-lg border px-2 py-1.5 text-sm outline-none"
                       >
                         {data.categories.map((category) => (
                           <option key={category.id} value={category.id}>
@@ -926,7 +930,7 @@ function TransactionsView({
                       </Badge>
                     </TableCell>
                     <TableCell
-                      className={`text-right font-extrabold ${transaction.amountCents > 0 ? "text-[#278456]" : ""}`}
+                      className={`text-right font-extrabold ${transaction.amountCents > 0 ? "text-[#2563EB]" : ""}`}
                     >
                       {formatMoney(transaction.amountCents, { sign: true })}
                     </TableCell>
@@ -997,23 +1001,23 @@ function ReportsView({
       ];
   return (
     <>
-      <div className="mb-5 flex items-center justify-between rounded-2xl bg-white p-2 shadow-sm ring-1 ring-black/5">
+      <div className="surface-card mb-5 flex items-center justify-between rounded-2xl p-2">
         <div className="px-3">
           <p className="font-extrabold">{monthLabel}</p>
           <p className="text-xs text-muted-foreground">
             {cashView ? "Every real movement" : "Reimbursement adjusted"}
           </p>
         </div>
-        <div className="flex rounded-xl bg-[#f1f3f1] p-1">
+        <div className="flex rounded-xl bg-[#E2E8F0]/70 p-1">
           <button
             onClick={() => setCashView(false)}
-            className={`rounded-lg px-3 py-2 text-sm font-bold ${!cashView ? "bg-white shadow-sm" : "text-muted-foreground"}`}
+            className={`rounded-lg px-3 py-2 text-sm font-bold transition ${!cashView ? "bg-white text-[#0A0F1E] shadow-sm" : "text-muted-foreground"}`}
           >
             True spending
           </button>
           <button
             onClick={() => setCashView(true)}
-            className={`rounded-lg px-3 py-2 text-sm font-bold ${cashView ? "bg-white shadow-sm" : "text-muted-foreground"}`}
+            className={`rounded-lg px-3 py-2 text-sm font-bold transition ${cashView ? "bg-white text-[#0A0F1E] shadow-sm" : "text-muted-foreground"}`}
           >
             Cash movement
           </button>
@@ -1021,13 +1025,10 @@ function ReportsView({
       </div>
       <section className="grid gap-4 md:grid-cols-3">
         {values.map((item, index) => (
-          <Card
-            key={item.label}
-            className="rounded-3xl border-0 bg-white shadow-sm ring-1 ring-black/5"
-          >
+          <Card key={item.label} className="surface-card rounded-3xl">
             <CardContent className="p-6">
               <span
-                className={`grid size-10 place-items-center rounded-2xl ${index === 2 ? "bg-[#17231c] text-[#c8ff68]" : "bg-[#f0edff] text-[#6748ef]"}`}
+                className={`grid size-10 place-items-center rounded-2xl ${index === 2 ? "bg-[#0A0F1E] text-white" : "bg-[#E8F1FF] text-[#3B82F6]"}`}
               >
                 <item.icon className="size-5" />
               </span>
@@ -1042,14 +1043,14 @@ function ReportsView({
         ))}
       </section>
       <section className="mt-5 grid gap-5 lg:grid-cols-[1.4fr_.6fr]">
-        <Card className="rounded-3xl border-0 bg-white shadow-sm ring-1 ring-black/5">
+        <Card className="surface-card rounded-3xl">
           <CardHeader>
             <CardTitle>Where your true spend went</CardTitle>
           </CardHeader>
           <CardContent className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData}>
-                <CartesianGrid vertical={false} stroke="#eef0ef" />
+                <CartesianGrid vertical={false} stroke="#E2E8F0" />
                 <XAxis
                   dataKey="name"
                   tick={{ fontSize: 11 }}
@@ -1065,12 +1066,12 @@ function ReportsView({
                 <ChartTooltip
                   formatter={(value) => formatMoney(Number(value) * 100)}
                 />
-                <Bar dataKey="amount" fill="#7657ff" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="amount" fill="#3B82F6" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
-        <Card className="rounded-3xl border-0 bg-[#17231c] text-white shadow-sm ring-0">
+        <Card className="rounded-3xl border-0 bg-[#0A0F1E] text-white shadow-[0_24px_60px_rgba(10,15,30,.16)] ring-0">
           <CardContent className="p-7">
             <p className="text-sm font-semibold text-white/55">
               Report confidence
@@ -1086,7 +1087,7 @@ function ReportsView({
             </p>
             <div className="mt-6 h-2 overflow-hidden rounded-full bg-white/10">
               <div
-                className="h-full rounded-full bg-[#c8ff68]"
+                className="h-full rounded-full bg-[#3B82F6]"
                 style={{ width: `${summary.completionPercent}%` }}
               />
             </div>

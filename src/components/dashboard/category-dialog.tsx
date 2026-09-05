@@ -25,7 +25,7 @@ export function CategoryDialog({
   onAdd: (category: Category) => Promise<void> | void;
 }) {
   const [name, setName] = useState("");
-  const [color, setColor] = useState("#7657ff");
+  const [color, setColor] = useState("#3B82F6");
   const [isIncome, setIsIncome] = useState(false);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -97,7 +97,7 @@ export function CategoryDialog({
           <Button
             onClick={() => void save()}
             disabled={!name.trim() || saving}
-            className="bg-[#7657ff] text-white"
+            className="bg-[#3B82F6] text-white hover:bg-[#2563EB]"
           >
             {saving ? "Saving…" : "Create category"}
           </Button>

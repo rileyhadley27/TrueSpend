@@ -41,10 +41,10 @@ export function AccountDialog({
         last4: last4 || undefined,
         color:
           kind === "venmo"
-            ? "#31b87b"
+            ? "#94A3B8"
             : kind === "credit_card"
-              ? "#7657ff"
-              : "#4d8cf7",
+              ? "#3B82F6"
+              : "#1B2A41",
       });
       setName("");
       setInstitution("");
@@ -94,7 +94,7 @@ export function AccountDialog({
                 id="account-kind"
                 value={kind}
                 onChange={(event) => setKind(event.target.value as AccountKind)}
-                className="h-9 w-full rounded-lg border bg-white px-2 text-sm"
+                className="field-control h-9 w-full rounded-lg border px-2 text-sm outline-none"
               >
                 <option value="checking">Checking</option>
                 <option value="savings">Savings</option>
@@ -127,7 +127,7 @@ export function AccountDialog({
             <Button
               type="submit"
               disabled={saving}
-              className="bg-[#17231c] text-white"
+              className="bg-[#3B82F6] text-white hover:bg-[#2563EB]"
             >
               {saving ? "Adding…" : "Add account"}
             </Button>
