@@ -27,6 +27,7 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -34,7 +35,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { type Theme, useTheme } from "@/components/theme/theme-provider";
 import type { Account } from "@/lib/finance/types";
-import { createClient } from "@/lib/supabase/client";
 
 const themeOptions: Array<{
   value: Theme;
@@ -63,20 +63,6 @@ export function ProfileMenu({
 }) {
   const { theme, setTheme } = useTheme();
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [signingOut, setSigningOut] = useState(false);
-  const [signOutError, setSignOutError] = useState("");
-
-  async function handleSignOut() {
-    setSigningOut(true);
-    setSignOutError("");
-    const { error } = await createClient().auth.signOut({ scope: "local" });
-    if (error) {
-      setSignOutError(error.message);
-      setSigningOut(false);
-      return;
-    }
-    window.location.replace("/auth");
-  }
 
   function connectAccount() {
     setSettingsOpen(false);
@@ -101,93 +87,103 @@ export function ProfileMenu({
           sideOffset={10}
           className="w-[min(21rem,calc(100vw-1.5rem))] rounded-2xl p-2 shadow-[0_24px_70px_rgba(10,15,30,.24)]"
         >
-          <DropdownMenuLabel className="flex items-center gap-3 px-2 py-2.5">
-            <span className="grid size-10 place-items-center rounded-xl bg-[#E8F1FF] text-sm font-bold text-[#2563EB] dark:bg-[#3B82F6]/15 dark:text-[#93C5FD]">
-              {userName.slice(0, 2).toUpperCase()}
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="block truncate text-sm font-bold text-foreground">
-                {userName}
+          <DropdownMenuGroup>
+            <DropdownMenuLabel className="flex items-center gap-3 px-2 py-2.5">
+              <span className="grid size-10 place-items-center rounded-xl bg-[#E8F1FF] text-sm font-bold text-[#2563EB] dark:bg-[#3B82F6]/15 dark:text-[#93C5FD]">
+                {userName.slice(0, 2).toUpperCase()}
               </span>
-              <span className="block truncate text-xs font-normal text-muted-foreground">
-                {userEmail || "No email on file"}
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-sm font-bold text-foreground">
+                  {userName}
+                </span>
+                <span className="block truncate text-xs font-normal text-muted-foreground">
+                  {userEmail || "No email on file"}
+                </span>
               </span>
-            </span>
-            {isAdmin && (
-              <Badge className="border-0 bg-[#E8F1FF] text-[#2563EB] dark:bg-[#3B82F6]/15 dark:text-[#93C5FD]">
-                Admin
-              </Badge>
-            )}
-          </DropdownMenuLabel>
+              {isAdmin && (
+                <Badge className="border-0 bg-[#E8F1FF] text-[#2563EB] dark:bg-[#3B82F6]/15 dark:text-[#93C5FD]">
+                  Admin
+                </Badge>
+              )}
+            </DropdownMenuLabel>
+          </DropdownMenuGroup>
 
           <DropdownMenuSeparator />
-          <DropdownMenuLabel className="px-2 pt-2 uppercase tracking-[.12em]">
-            Account
-          </DropdownMenuLabel>
-          <DropdownMenuItem
-            onClick={() => setSettingsOpen(true)}
-            className="px-2 py-2.5"
-          >
-            <Settings />
-            Account settings
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={onConnectAccount} className="px-2 py-2.5">
-            <Landmark />
-            Connect accounts
-            <span className="ml-auto text-xs text-muted-foreground">
-              {accounts.length}
-            </span>
-          </DropdownMenuItem>
-          {isAdmin && (
+          <DropdownMenuGroup>
+            <DropdownMenuLabel className="px-2 pt-2 uppercase tracking-[.12em]">
+              Account
+            </DropdownMenuLabel>
             <DropdownMenuItem
-              render={<Link href="/admin" />}
+              onClick={() => setSettingsOpen(true)}
               className="px-2 py-2.5"
             >
-              <ShieldCheck />
-              Pending approvals
+              <Settings />
+              Account settings
             </DropdownMenuItem>
-          )}
-
-          <DropdownMenuSeparator />
-          <DropdownMenuLabel className="px-2 pt-2 uppercase tracking-[.12em]">
-            Appearance
-          </DropdownMenuLabel>
-          <div className="grid grid-cols-3 gap-1 p-1" aria-label="Color theme">
-            {themeOptions.map((option) => (
+            <DropdownMenuItem
+              onClick={onConnectAccount}
+              className="px-2 py-2.5"
+            >
+              <Landmark />
+              Connect accounts
+              <span className="ml-auto text-xs text-muted-foreground">
+                {accounts.length}
+              </span>
+            </DropdownMenuItem>
+            {isAdmin && (
               <DropdownMenuItem
-                key={option.value}
-                closeOnClick={false}
-                onClick={() => setTheme(option.value)}
-                className={`flex-col justify-center gap-1.5 px-2 py-2.5 text-xs ${theme === option.value ? "bg-[#E8F1FF] text-[#1D4ED8] dark:bg-[#3B82F6]/15 dark:text-[#BFDBFE]" : "text-muted-foreground"}`}
-              >
-                <option.icon className="size-4" />
-                {option.label}
-                {theme === option.value && (
-                  <Check className="absolute right-1.5 top-1.5 size-3" />
-                )}
-              </DropdownMenuItem>
-            ))}
-          </div>
-
-          {!demoMode && (
-            <>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                variant="destructive"
-                disabled={signingOut}
-                onClick={() => void handleSignOut()}
+                render={<Link href="/admin" />}
                 className="px-2 py-2.5"
               >
-                <LogOut />
-                {signingOut ? "Signing out…" : "Sign out"}
+                <ShieldCheck />
+                Pending approvals
               </DropdownMenuItem>
-              {signOutError && (
-                <p className="px-2 pb-1 text-xs text-destructive" role="alert">
-                  {signOutError}
-                </p>
+            )}
+          </DropdownMenuGroup>
+
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuLabel className="px-2 pt-2 uppercase tracking-[.12em]">
+              Appearance
+            </DropdownMenuLabel>
+            <div
+              className="grid grid-cols-3 gap-1 p-1"
+              aria-label="Color theme"
+            >
+              {themeOptions.map((option) => (
+                <DropdownMenuItem
+                  key={option.value}
+                  closeOnClick={false}
+                  onClick={() => setTheme(option.value)}
+                  className={`flex-col justify-center gap-1.5 px-2 py-2.5 text-xs ${theme === option.value ? "bg-[#E8F1FF] text-[#1D4ED8] dark:bg-[#3B82F6]/15 dark:text-[#BFDBFE]" : "text-muted-foreground"}`}
+                >
+                  <option.icon className="size-4" />
+                  {option.label}
+                  {theme === option.value && (
+                    <Check className="absolute right-1.5 top-1.5 size-3" />
+                  )}
+                </DropdownMenuItem>
+              ))}
+            </div>
+          </DropdownMenuGroup>
+
+          <DropdownMenuSeparator />
+          <form action="/auth/signout" method="post">
+            <DropdownMenuItem
+              render={<button type="submit" className="w-full" />}
+              nativeButton
+              variant="destructive"
+              className="px-2 py-2.5"
+            >
+              <LogOut />
+              Sign out
+              {demoMode && (
+                <span className="ml-auto text-xs font-normal text-muted-foreground">
+                  Exit preview
+                </span>
               )}
-            </>
-          )}
+            </DropdownMenuItem>
+          </form>
         </DropdownMenuContent>
       </DropdownMenu>
 

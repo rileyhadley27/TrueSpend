@@ -323,73 +323,103 @@ export function DivvyDashboard({
         accounts={data.accounts}
         onConnectAccount={() => setAccountOpen(true)}
       />
-      <main className="mx-auto max-w-[1320px] px-5 py-8 pb-28 lg:px-8 lg:py-12">
-        <div className="enter-up mb-12 grid gap-8 lg:grid-cols-[1.1fr_.9fr] lg:items-end">
-          <div className="max-w-3xl">
-            <div className="eyebrow mb-4 flex items-center gap-2">
+      <section className="dashboard-stage relative -mt-[76px] overflow-hidden bg-[#0A0F1E] pt-[132px] text-white">
+        <div className="dashboard-grid pointer-events-none absolute inset-0 opacity-50" />
+        <div className="pointer-events-none absolute -right-24 top-4 size-[34rem] rounded-full bg-[#3B82F6]/20 blur-[110px]" />
+        <div className="pointer-events-none absolute -left-48 bottom-0 size-[28rem] rounded-full bg-[#1B2A41] blur-[90px]" />
+        <div className="relative mx-auto grid max-w-[1320px] gap-10 px-5 pb-32 lg:grid-cols-[1.14fr_.86fr] lg:items-end lg:px-8 lg:pb-36">
+          <div className="enter-up max-w-3xl">
+            <div className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-[.18em] text-[#94A3B8]">
               <Sparkles className="size-3.5" />
               {view === "overview"
                 ? `Welcome back, ${userName}`
                 : "Financial command center"}
             </div>
-            <h1 className="display-heading text-5xl leading-[.96] sm:text-6xl lg:text-[4.6rem]">
+            <h1 className="display-heading text-5xl leading-[.92] sm:text-6xl lg:text-[5.25rem]">
               {view === "overview" ? (
                 <>
                   Every dollar. <br />
-                  <span className="text-[#3B82F6]">One true picture.</span>
+                  <span className="text-[#60A5FA]">One true picture.</span>
                 </>
               ) : view === "transactions" ? (
                 <>
                   Every transaction. <br />
-                  <span className="text-[#3B82F6]">Nothing lost.</span>
+                  <span className="text-[#60A5FA]">Nothing lost.</span>
                 </>
               ) : (
                 <>
                   The month, <br />
-                  <span className="text-[#3B82F6]">finally adding up.</span>
+                  <span className="text-[#60A5FA]">finally adding up.</span>
                 </>
               )}
             </h1>
-            <p className="mt-6 max-w-2xl text-base leading-7 text-[#64748B] sm:text-lg dark:text-[#94A3B8]">
+            <p className="mt-7 max-w-2xl text-base leading-7 text-[#94A3B8] sm:text-lg">
               {view === "overview"
                 ? `Divvy connects repayments, transfers, and statements so ${monthLabel} reflects what you actually spent.`
                 : view === "transactions"
                   ? "Search the ledger without losing the original statement facts."
                   : "Switch between adjusted spending and real cash movement."}
             </p>
-          </div>
-          <div className="glass-panel enter-up-delayed rounded-[28px] p-3.5 sm:p-4">
-            <div className="mb-3 flex items-center justify-between px-1">
-              <p className="text-xs font-bold uppercase tracking-[.13em] text-muted-foreground">
-                Quick actions
-              </p>
-              <span className="flex items-center gap-1.5 text-xs font-semibold text-[#2563EB] dark:text-[#93C5FD]">
-                <span className="size-1.5 rounded-full bg-[#3B82F6]" />
-                {tasks.length} ready to review
+            <div className="mt-8 flex flex-wrap gap-x-7 gap-y-3 text-sm font-semibold text-[#E2E8F0]">
+              <span className="flex items-center gap-2">
+                <span className="size-1.5 rounded-full bg-[#60A5FA]" />
+                Original records preserved
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="size-1.5 rounded-full bg-[#60A5FA]" />
+                Every adjustment auditable
               </span>
             </div>
-            <div className="flex flex-wrap gap-2">
-              <label className="field-control flex h-10 items-center gap-2 rounded-xl border px-3 text-sm font-semibold shadow-sm transition">
+          </div>
+          <div className="enter-up-delayed rounded-[30px] border border-white/10 bg-white/[.065] p-4 shadow-[0_32px_90px_rgba(0,0,0,.28)] backdrop-blur-2xl sm:p-5">
+            <div className="mb-5 grid grid-cols-2 gap-3">
+              <div className="rounded-2xl border border-white/8 bg-white/[.055] p-4">
+                <p className="text-xs font-semibold uppercase tracking-[.12em] text-[#94A3B8]">
+                  Reconciled
+                </p>
+                <p className="mt-2 text-3xl font-bold tracking-[-.05em]">
+                  {summary.completionPercent}%
+                </p>
+              </div>
+              <div className="rounded-2xl border border-white/8 bg-[#3B82F6] p-4 shadow-[0_16px_40px_rgba(59,130,246,.25)]">
+                <p className="text-xs font-semibold uppercase tracking-[.12em] text-white/70">
+                  Ready to review
+                </p>
+                <p className="mt-2 text-3xl font-bold tracking-[-.05em]">
+                  {tasks.length}
+                </p>
+              </div>
+            </div>
+            <div className="mb-3 flex items-center justify-between px-1">
+              <p className="text-xs font-bold uppercase tracking-[.14em] text-[#94A3B8]">
+                Quick actions
+              </p>
+              <span className="text-xs font-semibold text-[#60A5FA]">
+                {monthLabel}
+              </span>
+            </div>
+            <div className="grid gap-2 sm:grid-cols-2">
+              <label className="flex h-11 items-center gap-2 rounded-xl border border-white/10 bg-white/8 px-3 text-sm font-semibold text-white transition hover:bg-white/12">
                 <CalendarDays className="size-4" />
                 <input
                   aria-label="Reporting month"
                   type="month"
                   value={month}
                   onChange={(event) => setMonth(event.target.value)}
-                  className="bg-transparent outline-none"
+                  className="min-w-0 bg-transparent text-white outline-none [color-scheme:dark]"
                 />
               </label>
               <Button
                 variant="outline"
                 onClick={() => setCategoryOpen(true)}
-                className="h-10 rounded-xl bg-white px-4 shadow-sm dark:bg-[#111B2E]"
+                className="h-11 rounded-xl border-white/10 bg-white/8 px-4 text-white hover:bg-white/14 hover:text-white"
               >
                 Add category
               </Button>
               <Button
                 variant="outline"
                 onClick={() => setAccountOpen(true)}
-                className="h-10 rounded-xl bg-white px-4 shadow-sm dark:bg-[#111B2E]"
+                className="h-11 rounded-xl border-white/10 bg-white/8 px-4 text-white hover:bg-white/14 hover:text-white"
               >
                 <Landmark /> Add account
               </Button>
@@ -397,21 +427,23 @@ export function DivvyDashboard({
                 variant="outline"
                 onClick={() => setManualOpen(true)}
                 disabled={!data.accounts.length}
-                className="h-10 rounded-xl bg-white px-4 shadow-sm dark:bg-[#111B2E]"
+                className="h-11 rounded-xl border-white/10 bg-white/8 px-4 text-white hover:bg-white/14 hover:text-white"
               >
                 <Plus /> Add transaction
               </Button>
               <Button
                 onClick={() => setImportOpen(true)}
                 disabled={!data.accounts.length}
-                className="h-10 rounded-xl bg-[#3B82F6] px-4 text-white shadow-[0_8px_24px_rgba(59,130,246,.24)] hover:bg-[#2563EB]"
+                className="h-11 rounded-xl bg-white px-4 text-[#0A0F1E] shadow-[0_12px_30px_rgba(0,0,0,.2)] hover:bg-[#E2E8F0] sm:col-span-2"
               >
                 <Upload /> Import statement
               </Button>
             </div>
           </div>
         </div>
+      </section>
 
+      <main className="relative z-10 mx-auto -mt-20 max-w-[1320px] px-5 pb-28 lg:px-8">
         {view === "overview" && (
           <Overview
             summary={summary}
@@ -497,7 +529,7 @@ function Header({
 }) {
   return (
     <header className="sticky top-0 z-30 px-3 pt-3 md:px-5">
-      <div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between rounded-2xl bg-[#0A0F1E]/96 px-3 text-white shadow-[0_18px_50px_rgba(10,15,30,.2)] ring-1 ring-white/8 backdrop-blur-xl sm:px-5">
+      <div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between rounded-2xl border border-white/10 bg-[#0A0F1E]/72 px-3 text-white shadow-[0_18px_50px_rgba(10,15,30,.24)] backdrop-blur-2xl sm:px-5">
         <button
           onClick={() => setView("overview")}
           className="flex items-center gap-3"
@@ -601,13 +633,13 @@ function Overview({
   return (
     <>
       <section className="enter-up-delayed grid gap-5 lg:grid-cols-[1.55fr_0.8fr]">
-        <Card className="relative overflow-hidden rounded-[32px] border-0 bg-[#0A0F1E] py-0 text-white shadow-[0_30px_80px_rgba(10,15,30,.2)] ring-0">
-          <div className="pointer-events-none absolute -right-24 -top-36 size-[28rem] rounded-full bg-[#3B82F6]/18 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-32 left-1/4 size-64 rounded-full bg-[#1B2A41] blur-3xl" />
+        <Card className="relative overflow-hidden rounded-[32px] border-0 bg-[linear-gradient(135deg,#3B82F6_0%,#2563EB_58%,#1B2A41_145%)] py-0 text-white shadow-[0_32px_90px_rgba(37,99,235,.28)] ring-0">
+          <div className="pointer-events-none absolute -right-24 -top-36 size-[28rem] rounded-full bg-white/16 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-32 left-1/4 size-64 rounded-full bg-[#0A0F1E]/30 blur-3xl" />
           <CardContent className="relative grid min-h-[350px] gap-8 p-7 md:grid-cols-[1fr_230px] md:p-10">
             <div className="flex flex-col justify-between">
               <div>
-                <Badge className="border-0 bg-[#3B82F6]/18 px-3 py-1.5 text-[#BFDBFE]">
+                <Badge className="border border-white/15 bg-white/12 px-3 py-1.5 text-white">
                   {monthLabel.toUpperCase()}
                 </Badge>
                 <p className="mt-9 text-sm font-medium text-white/55">
@@ -617,7 +649,7 @@ function Overview({
                   {formatMoney(summary.leftoverCents)}
                 </p>
                 <div className="mt-5 flex items-center gap-2 text-sm text-white/70">
-                  <span className="rounded-full bg-[#3B82F6]/18 px-2.5 py-1 font-bold text-[#93C5FD]">
+                  <span className="rounded-full bg-white/14 px-2.5 py-1 font-bold text-white">
                     True view
                   </span>
                   <span>
@@ -641,10 +673,10 @@ function Overview({
               <div
                 className="relative grid size-[190px] place-items-center rounded-full"
                 style={{
-                  background: `conic-gradient(#3B82F6 0 ${summary.completionPercent}%, rgba(148,163,184,.14) ${summary.completionPercent}% 100%)`,
+                  background: `conic-gradient(#ffffff 0 ${summary.completionPercent}%, rgba(255,255,255,.16) ${summary.completionPercent}% 100%)`,
                 }}
               >
-                <div className="grid size-[142px] place-items-center rounded-full bg-[#0A0F1E] text-center shadow-inner">
+                <div className="grid size-[142px] place-items-center rounded-full bg-[#2563EB] text-center shadow-[inset_0_0_0_1px_rgba(255,255,255,.12),0_14px_30px_rgba(10,15,30,.18)]">
                   <div>
                     <p className="text-4xl font-extrabold">
                       {summary.completionPercent}%
@@ -655,7 +687,7 @@ function Overview({
                   </div>
                 </div>
                 {summary.completionPercent === 100 && (
-                  <span className="absolute -right-1 top-7 grid size-9 place-items-center rounded-full bg-[#3B82F6] text-white shadow-lg">
+                  <span className="absolute -right-1 top-7 grid size-9 place-items-center rounded-full bg-white text-[#2563EB] shadow-lg">
                     <Check className="size-5 stroke-[3]" />
                   </span>
                 )}

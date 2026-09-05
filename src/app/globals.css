@@ -190,6 +190,23 @@
     text-wrap: balance;
   }
 
+  .dashboard-grid {
+    background-image:
+      linear-gradient(rgb(148 163 184 / 8%) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(148 163 184 / 8%) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: linear-gradient(to bottom, black 0%, transparent 88%);
+  }
+
+  .dashboard-stage::after {
+    position: absolute;
+    inset: auto 0 0;
+    height: 8rem;
+    background: linear-gradient(to bottom, transparent, rgb(10 15 30 / 32%));
+    content: "";
+    pointer-events: none;
+  }
+
   .enter-up {
     animation: enter-up 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
