@@ -86,6 +86,7 @@ export function DivvyDashboard({
   const [importOpen, setImportOpen] = useState(false);
   const [manualOpen, setManualOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
+  const [returnToImport, setReturnToImport] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [reviewing, setReviewing] = useState<Reconciliation | null>(null);
   const [cashView, setCashView] = useState(false);
@@ -199,6 +200,20 @@ export function DivvyDashboard({
           item.id === account.id ? { ...item, id: result.id } : item,
         ),
       }));
+    }
+  }
+
+  function openAccountFromImport() {
+    setImportOpen(false);
+    setReturnToImport(true);
+    setAccountOpen(true);
+  }
+
+  function changeAccountOpen(open: boolean) {
+    setAccountOpen(open);
+    if (!open && returnToImport) {
+      setReturnToImport(false);
+      setImportOpen(true);
     }
   }
   async function addCategory(category: DashboardData["categories"][number]) {
@@ -433,7 +448,6 @@ export function DivvyDashboard({
               </Button>
               <Button
                 onClick={() => setImportOpen(true)}
-                disabled={!data.accounts.length}
                 className="h-11 rounded-xl bg-white px-4 text-[#0A0F1E] shadow-[0_12px_30px_rgba(0,0,0,.2)] hover:bg-[#E2E8F0] sm:col-span-2"
               >
                 <Upload /> Import statement
@@ -478,11 +492,12 @@ export function DivvyDashboard({
         onOpenChange={setImportOpen}
         accounts={data.accounts}
         persisted={!demoMode}
+        onAddAccount={openAccountFromImport}
         onCommit={commitImport}
       />
       <AccountDialog
         open={accountOpen}
-        onOpenChange={setAccountOpen}
+        onOpenChange={changeAccountOpen}
         onAdd={addAccount}
       />
       <CategoryDialog

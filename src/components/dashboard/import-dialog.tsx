@@ -6,6 +6,7 @@ import {
   CheckCircle2,
   FileSpreadsheet,
   FileText,
+  Landmark,
   LoaderCircle,
   UploadCloud,
 } from "lucide-react";
@@ -45,6 +46,7 @@ interface ImportDialogProps {
   onOpenChange: (open: boolean) => void;
   accounts: Account[];
   persisted?: boolean;
+  onAddAccount: () => void;
   onCommit: (payload: {
     accountId: string;
     fileName: string;
@@ -61,6 +63,7 @@ export function ImportDialog({
   onOpenChange,
   accounts,
   persisted = false,
+  onAddAccount,
   onCommit,
 }: ImportDialogProps) {
   const [accountId, setAccountId] = useState(accounts[0]?.id ?? "");
@@ -79,6 +82,7 @@ export function ImportDialog({
   const [progress, setProgress] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const selectedAccountId = accountId || accounts[0]?.id || "";
   const candidates = useMemo(() => {
     const extracted = rawRows.length
       ? mapRows(rawRows, mapping)
@@ -134,9 +138,9 @@ export function ImportDialog({
         setHeaders(discoveredHeaders);
         setRawRows(result.data);
         let nextMapping = suggestMapping(discoveredHeaders);
-        if (persisted && accountId) {
+        if (persisted && selectedAccountId) {
           const response = await fetch(
-            `/api/import-presets?accountId=${encodeURIComponent(accountId)}&signature=${encodeURIComponent(discoveredHeaders.join("|"))}`,
+            `/api/import-presets?accountId=${encodeURIComponent(selectedAccountId)}&signature=${encodeURIComponent(discoveredHeaders.join("|"))}`,
           );
           if (response.ok) {
             const saved = await response.json();
@@ -184,12 +188,12 @@ export function ImportDialog({
   }
 
   async function commit() {
-    if (!file || !accountId || validCount === 0) return;
+    if (!file || !selectedAccountId || validCount === 0) return;
     setSubmitting(true);
     setError("");
     try {
       await onCommit({
-        accountId,
+        accountId: selectedAccountId,
         fileName: file.name,
         fileHash,
         file,
@@ -217,6 +221,48 @@ export function ImportDialog({
     }
   }
 
+  if (accounts.length === 0) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="overflow-hidden rounded-3xl p-0 sm:max-w-lg">
+          <DialogHeader className="px-6 pt-6">
+            <DialogTitle className="text-xl font-extrabold">
+              Import a statement
+            </DialogTitle>
+            <DialogDescription>
+              Statements need an account so Divvy knows where their transactions
+              belong.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mx-6 mb-6 grid min-h-60 place-items-center rounded-3xl border border-[#3B82F6]/15 bg-gradient-to-br from-[#E8F1FF] to-white p-7 text-center dark:from-[#152746] dark:to-[#111B2E]">
+            <div>
+              <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#3B82F6] text-white shadow-[0_12px_30px_rgba(59,130,246,.28)]">
+                <Landmark className="size-6" />
+              </span>
+              <h3 className="mt-5 text-xl font-extrabold tracking-[-.03em]">
+                Add your first account
+              </h3>
+              <p className="mx-auto mt-2 max-w-xs text-sm leading-6 text-muted-foreground">
+                Give your bank, card, or Venmo account a label. No banking
+                credentials are needed for statement imports.
+              </p>
+              <Button
+                type="button"
+                onClick={() => {
+                  onOpenChange(false);
+                  onAddAccount();
+                }}
+                className="mt-5 h-11 rounded-xl bg-[#3B82F6] px-5 text-white hover:bg-[#2563EB]"
+              >
+                <Landmark /> Add your first account
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto rounded-3xl p-0 sm:max-w-4xl">
@@ -235,7 +281,7 @@ export function ImportDialog({
               <Label htmlFor="import-account">Account</Label>
               <select
                 id="import-account"
-                value={accountId}
+                value={selectedAccountId}
                 onChange={(event) => setAccountId(event.target.value)}
                 className="field-control h-10 w-full rounded-xl border px-3 text-sm outline-none"
               >
@@ -439,7 +485,9 @@ export function ImportDialog({
           </Button>
           <Button
             onClick={() => void commit()}
-            disabled={!file || !accountId || validCount === 0 || submitting}
+            disabled={
+              !file || !selectedAccountId || validCount === 0 || submitting
+            }
             className="bg-[#3B82F6] text-white hover:bg-[#2563EB]"
           >
             {submitting
