@@ -262,7 +262,7 @@ export function ImportDialog({
           {!file && (
             <label
               htmlFor="statement-file"
-              className="grid min-h-44 cursor-pointer place-items-center rounded-2xl border-2 border-dashed border-[#94A3B8]/50 bg-[#F8FAFC] p-6 text-center transition hover:border-[#3B82F6] hover:bg-[#E8F1FF]/50"
+              className="grid min-h-44 cursor-pointer place-items-center rounded-2xl border-2 border-dashed border-[#94A3B8]/50 bg-[#F8FAFC] p-6 text-center transition hover:border-[#3B82F6] hover:bg-[#E8F1FF]/50 dark:bg-[#0F192A] dark:hover:bg-[#1B2A41]"
             >
               <span>
                 <UploadCloud className="mx-auto size-8 text-[#3B82F6]" />
@@ -276,7 +276,7 @@ export function ImportDialog({
             </label>
           )}
           {progress && (
-            <div className="flex items-center gap-3 rounded-2xl bg-[#E8F1FF] p-4 text-sm font-semibold text-[#1D4ED8]">
+            <div className="flex items-center gap-3 rounded-2xl bg-[#E8F1FF] p-4 text-sm font-semibold text-[#1D4ED8] dark:bg-[#1B2A41] dark:text-[#93C5FD]">
               <LoaderCircle className="size-5 animate-spin" />
               {progress}
             </div>
@@ -290,7 +290,7 @@ export function ImportDialog({
           )}
 
           {file && !progress && (
-            <div className="flex items-center justify-between rounded-2xl bg-[#E2E8F0]/60 p-4">
+            <div className="flex items-center justify-between rounded-2xl bg-[#E2E8F0]/60 p-4 dark:bg-[#1B2A41]">
               <div className="flex items-center gap-3">
                 {file.name.endsWith(".pdf") ? (
                   <FileText className="text-[#3B82F6]" />

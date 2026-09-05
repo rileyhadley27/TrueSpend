@@ -60,7 +60,7 @@ export function AccountDialog({
         <form onSubmit={submit}>
           <DialogHeader>
             <DialogTitle className="text-xl font-extrabold">
-              Add a financial account
+              Connect a financial account
             </DialogTitle>
             <DialogDescription>
               Add the account label that appears on your statement. Divvy never
@@ -129,7 +129,7 @@ export function AccountDialog({
               disabled={saving}
               className="bg-[#3B82F6] text-white hover:bg-[#2563EB]"
             >
-              {saving ? "Adding…" : "Add account"}
+              {saving ? "Connecting…" : "Connect account"}
             </Button>
           </DialogFooter>
         </form>

@@ -8,7 +8,6 @@ import {
   Bell,
   CalendarDays,
   Check,
-  ChevronDown,
   CircleDollarSign,
   ClipboardCheck,
   CreditCard,
@@ -16,7 +15,6 @@ import {
   Landmark,
   LayoutDashboard,
   ListFilter,
-  LogOut,
   Plus,
   ReceiptText,
   Search,
@@ -35,25 +33,17 @@ import {
   YAxis,
 } from "recharts";
 
-import { signOut } from "@/app/auth/actions";
 import { DivvyLogo } from "@/components/brand/divvy-logo";
 import { ImportDialog } from "./import-dialog";
 import { AccountDialog } from "./account-dialog";
 import { ManualDialog } from "./manual-dialog";
 import { ReviewDialog } from "./review-dialog";
 import { CategoryDialog } from "./category-dialog";
+import { ProfileMenu } from "./profile-menu";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -77,11 +67,13 @@ export function DivvyDashboard({
   initialData,
   demoMode = false,
   userName = "Riley",
+  userEmail = "riley@example.com",
   isAdmin = false,
 }: {
   initialData: DashboardData;
   demoMode?: boolean;
   userName?: string;
+  userEmail?: string;
   isAdmin?: boolean;
 }) {
   const [data, setData] = useState(initialData);
@@ -320,13 +312,16 @@ export function DivvyDashboard({
   }
 
   return (
-    <div className="min-h-screen text-[#0A0F1E]">
+    <div className="min-h-screen text-[#0A0F1E] dark:text-[#E2E8F0]">
       <Header
         view={view}
         setView={setView}
         userName={userName}
+        userEmail={userEmail}
         demoMode={demoMode}
         isAdmin={isAdmin}
+        accounts={data.accounts}
+        onConnectAccount={() => setAccountOpen(true)}
       />
       <main className="mx-auto max-w-[1320px] px-5 py-8 pb-28 lg:px-8 lg:py-12">
         <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
@@ -341,7 +336,7 @@ export function DivvyDashboard({
                   ? "Every dollar, in one place."
                   : "Your true monthly picture."}
             </h1>
-            <p className="mt-3 text-sm text-[#64748B] sm:text-base">
+            <p className="mt-3 text-sm text-[#64748B] sm:text-base dark:text-[#94A3B8]">
               {view === "overview"
                 ? `${monthLabel} has ${tasks.length} item${tasks.length === 1 ? "" : "s"} ready for review.`
                 : view === "transactions"
@@ -363,14 +358,14 @@ export function DivvyDashboard({
             <Button
               variant="outline"
               onClick={() => setCategoryOpen(true)}
-              className="h-10 rounded-xl bg-white px-4 shadow-sm"
+              className="h-10 rounded-xl bg-white px-4 shadow-sm dark:bg-[#111B2E]"
             >
               Add category
             </Button>
             <Button
               variant="outline"
               onClick={() => setAccountOpen(true)}
-              className="h-10 rounded-xl bg-white px-4 shadow-sm"
+              className="h-10 rounded-xl bg-white px-4 shadow-sm dark:bg-[#111B2E]"
             >
               <Landmark /> Add account
             </Button>
@@ -378,7 +373,7 @@ export function DivvyDashboard({
               variant="outline"
               onClick={() => setManualOpen(true)}
               disabled={!data.accounts.length}
-              className="h-10 rounded-xl bg-white px-4 shadow-sm"
+              className="h-10 rounded-xl bg-white px-4 shadow-sm dark:bg-[#111B2E]"
             >
               <Plus /> Add transaction
             </Button>
@@ -460,14 +455,20 @@ function Header({
   view,
   setView,
   userName,
+  userEmail,
   demoMode,
   isAdmin,
+  accounts,
+  onConnectAccount,
 }: {
   view: View;
   setView: (view: View) => void;
   userName: string;
+  userEmail: string;
   demoMode: boolean;
   isAdmin: boolean;
+  accounts: DashboardData["accounts"];
+  onConnectAccount: () => void;
 }) {
   return (
     <header className="sticky top-0 z-30 px-3 pt-3 md:px-5">
@@ -521,46 +522,14 @@ function Header({
           >
             <Bell />
           </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#1B2A41] px-2 py-1.5 text-sm font-semibold text-white outline-none transition hover:bg-[#243753] focus-visible:ring-3 focus-visible:ring-[#3B82F6]/40">
-              <span className="grid size-7 place-items-center rounded-lg bg-[#3B82F6] text-xs font-bold text-white">
-                {userName.slice(0, 2).toUpperCase()}
-              </span>
-              <span className="hidden sm:inline">{userName}</span>
-              <ChevronDown className="size-3.5" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="min-w-52">
-              <DropdownMenuLabel className="px-2 py-1.5">
-                Signed in as {userName}
-              </DropdownMenuLabel>
-              {isAdmin && (
-                <>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    render={<Link href="/admin" />}
-                    className="px-2 py-2"
-                  >
-                    <ShieldCheck />
-                    Pending approvals
-                  </DropdownMenuItem>
-                </>
-              )}
-              {!demoMode && (
-                <>
-                  <DropdownMenuSeparator />
-                  <form action={signOut}>
-                    <DropdownMenuItem
-                      render={<button type="submit" />}
-                      className="w-full px-2 py-2"
-                    >
-                      <LogOut />
-                      Sign out
-                    </DropdownMenuItem>
-                  </form>
-                </>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <ProfileMenu
+            userName={userName}
+            userEmail={userEmail}
+            isAdmin={isAdmin}
+            demoMode={demoMode}
+            accounts={accounts}
+            onConnectAccount={onConnectAccount}
+          />
         </div>
       </div>
       <nav
@@ -671,7 +640,7 @@ function Overview({
           <CardContent className="flex h-full flex-col p-7">
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-sm font-semibold text-[#64748B]">
+                <p className="text-sm font-semibold text-[#64748B] dark:text-[#94A3B8]">
                   True spend insight
                 </p>
                 <h2 className="mt-1 text-2xl font-extrabold">
@@ -682,7 +651,7 @@ function Overview({
                 <WalletCards />
               </span>
             </div>
-            <div className="mt-7 rounded-2xl bg-[#E2E8F0]/65 p-5 ring-1 ring-[#94A3B8]/15">
+            <div className="mt-7 rounded-2xl bg-[#E2E8F0]/65 p-5 ring-1 ring-[#94A3B8]/15 dark:bg-[#1B2A41]">
               <div className="flex justify-between text-sm">
                 <span className="font-semibold">Statement spending</span>
                 <span className="font-bold">
@@ -701,14 +670,17 @@ function Overview({
             </div>
             <div className="mt-auto flex items-end justify-between pt-6">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[.12em] text-[#64748B]">
+                <p className="text-xs font-semibold uppercase tracking-[.12em] text-[#64748B] dark:text-[#94A3B8]">
                   True spend
                 </p>
                 <p className="mt-1 text-3xl font-extrabold">
                   {formatMoney(summary.trueSpendCents)}
                 </p>
               </div>
-              <Badge variant="outline" className="bg-white text-[#1B2A41]">
+              <Badge
+                variant="outline"
+                className="bg-white text-[#1B2A41] dark:bg-[#111B2E] dark:text-[#E2E8F0]"
+              >
                 Auditable
               </Badge>
             </div>
@@ -720,7 +692,7 @@ function Overview({
           <div className="mb-3 flex items-end justify-between">
             <div>
               <h2 className="text-xl font-extrabold">Reconciliation inbox</h2>
-              <p className="mt-1 text-sm text-[#64748B]">
+              <p className="mt-1 text-sm text-[#64748B] dark:text-[#94A3B8]">
                 Every match waits for your approval.
               </p>
             </div>
@@ -763,23 +735,23 @@ function Overview({
                 layout="vertical"
                 margin={{ left: 8, right: 20 }}
               >
-                <CartesianGrid horizontal={false} stroke="#E2E8F0" />
+                <CartesianGrid horizontal={false} stroke="var(--border)" />
                 <XAxis type="number" hide />
                 <YAxis
                   type="category"
                   dataKey="name"
                   width={95}
-                  tick={{ fontSize: 11, fill: "#64748B" }}
+                  tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
                   axisLine={false}
                   tickLine={false}
                 />
                 <ChartTooltip
                   formatter={(value) => formatMoney(Number(value) * 100)}
-                  cursor={{ fill: "#EFF6FF" }}
+                  cursor={{ fill: "var(--muted)" }}
                 />
                 <Bar
                   dataKey="amount"
-                  fill="#3B82F6"
+                  fill="var(--primary)"
                   radius={[0, 8, 8, 0]}
                   barSize={18}
                 />
@@ -815,7 +787,9 @@ function TaskRow({
       </span>
       <div className="min-w-0 flex-1">
         <h3 className="font-bold">{task.title}</h3>
-        <p className="truncate text-sm text-[#64748B]">{task.explanation}</p>
+        <p className="truncate text-sm text-[#64748B] dark:text-[#94A3B8]">
+          {task.explanation}
+        </p>
       </div>
       <div className="hidden text-right sm:block">
         <p className="font-bold">
@@ -1007,16 +981,16 @@ function ReportsView({
             {cashView ? "Every real movement" : "Reimbursement adjusted"}
           </p>
         </div>
-        <div className="flex rounded-xl bg-[#E2E8F0]/70 p-1">
+        <div className="flex rounded-xl bg-[#E2E8F0]/70 p-1 dark:bg-[#0A0F1E]">
           <button
             onClick={() => setCashView(false)}
-            className={`rounded-lg px-3 py-2 text-sm font-bold transition ${!cashView ? "bg-white text-[#0A0F1E] shadow-sm" : "text-muted-foreground"}`}
+            className={`rounded-lg px-3 py-2 text-sm font-bold transition ${!cashView ? "bg-white text-[#0A0F1E] shadow-sm dark:bg-[#1B2A41] dark:text-[#E2E8F0]" : "text-muted-foreground"}`}
           >
             True spending
           </button>
           <button
             onClick={() => setCashView(true)}
-            className={`rounded-lg px-3 py-2 text-sm font-bold transition ${cashView ? "bg-white text-[#0A0F1E] shadow-sm" : "text-muted-foreground"}`}
+            className={`rounded-lg px-3 py-2 text-sm font-bold transition ${cashView ? "bg-white text-[#0A0F1E] shadow-sm dark:bg-[#1B2A41] dark:text-[#E2E8F0]" : "text-muted-foreground"}`}
           >
             Cash movement
           </button>
@@ -1027,7 +1001,7 @@ function ReportsView({
           <Card key={item.label} className="surface-card rounded-3xl">
             <CardContent className="p-6">
               <span
-                className={`grid size-10 place-items-center rounded-2xl ${index === 2 ? "bg-[#0A0F1E] text-white" : "bg-[#E8F1FF] text-[#3B82F6]"}`}
+                className={`grid size-10 place-items-center rounded-2xl ${index === 2 ? "bg-[#0A0F1E] text-white" : "bg-[#E8F1FF] text-[#3B82F6] dark:bg-[#1B2A41] dark:text-[#93C5FD]"}`}
               >
                 <item.icon className="size-5" />
               </span>
@@ -1049,7 +1023,7 @@ function ReportsView({
           <CardContent className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData}>
-                <CartesianGrid vertical={false} stroke="#E2E8F0" />
+                <CartesianGrid vertical={false} stroke="var(--border)" />
                 <XAxis
                   dataKey="name"
                   tick={{ fontSize: 11 }}
@@ -1065,7 +1039,11 @@ function ReportsView({
                 <ChartTooltip
                   formatter={(value) => formatMoney(Number(value) * 100)}
                 />
-                <Bar dataKey="amount" fill="#3B82F6" radius={[8, 8, 0, 0]} />
+                <Bar
+                  dataKey="amount"
+                  fill="var(--primary)"
+                  radius={[8, 8, 0, 0]}
+                />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>

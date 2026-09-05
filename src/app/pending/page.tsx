@@ -10,7 +10,7 @@ export default function PendingPage() {
       <Card className="surface-card max-w-lg rounded-[28px] text-center">
         <CardContent className="p-9 sm:p-11">
           <DivvyLogo className="mx-auto size-12 rounded-2xl shadow-[0_10px_30px_rgba(10,15,30,.2)]" />
-          <span className="mx-auto mt-8 grid size-14 place-items-center rounded-full bg-[#E8F1FF] text-[#3B82F6] ring-8 ring-[#3B82F6]/5">
+          <span className="mx-auto mt-8 grid size-14 place-items-center rounded-full bg-[#E8F1FF] text-[#3B82F6] ring-8 ring-[#3B82F6]/5 dark:bg-[#1B2A41] dark:text-[#93C5FD]">
             <Clock3 />
           </span>
           <p className="eyebrow mt-7">Access pending</p>

@@ -49,7 +49,7 @@ export default async function AuthPage({
                 Divvy
               </div>
             </div>
-            <span className="grid size-11 place-items-center rounded-2xl bg-[#E8F1FF] text-[#3B82F6]">
+            <span className="grid size-11 place-items-center rounded-2xl bg-[#E8F1FF] text-[#3B82F6] dark:bg-[#1B2A41] dark:text-[#93C5FD]">
               <LockKeyhole />
             </span>
             <h2 className="mt-5 text-3xl font-bold tracking-[-0.04em]">

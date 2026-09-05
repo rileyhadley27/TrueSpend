@@ -39,7 +39,7 @@ export default async function AdminPage() {
       <section className="mx-auto max-w-6xl px-2 py-10 sm:px-5 sm:py-14">
         <Link
           href="/"
-          className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-[#64748B] transition hover:text-[#0A0F1E]"
+          className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-[#64748B] transition hover:text-[#0A0F1E] dark:text-[#94A3B8] dark:hover:text-white"
         >
           <ArrowLeft className="size-4" /> Back to dashboard
         </Link>
@@ -54,12 +54,12 @@ export default async function AdminPage() {
               here.
             </p>
           </div>
-          <div className="flex items-center gap-3 rounded-2xl bg-[#E2E8F0]/70 px-4 py-3 ring-1 ring-[#94A3B8]/15">
-            <span className="grid size-9 place-items-center rounded-xl bg-white text-[#3B82F6] shadow-sm">
+          <div className="flex items-center gap-3 rounded-2xl bg-[#E2E8F0]/70 px-4 py-3 ring-1 ring-[#94A3B8]/15 dark:bg-[#1B2A41]">
+            <span className="grid size-9 place-items-center rounded-xl bg-white text-[#3B82F6] shadow-sm dark:bg-[#111B2E] dark:text-[#93C5FD]">
               <Clock3 className="size-4" />
             </span>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[.12em] text-[#64748B]">
+              <p className="text-xs font-semibold uppercase tracking-[.12em] text-[#64748B] dark:text-[#94A3B8]">
                 Waiting
               </p>
               <p className="text-lg font-bold leading-5">
@@ -70,7 +70,7 @@ export default async function AdminPage() {
           </div>
         </div>
         <Card className="surface-card mt-8 rounded-3xl">
-          <CardHeader className="border-b border-[#E2E8F0]">
+          <CardHeader className="border-b border-[#E2E8F0] dark:border-[#2B3B54]">
             <CardTitle className="text-lg">Pending requests</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -78,7 +78,7 @@ export default async function AdminPage() {
               profiles.map((profile) => (
                 <div
                   key={profile.user_id}
-                  className="flex flex-col gap-4 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 transition hover:border-[#94A3B8]/50 sm:flex-row sm:items-center"
+                  className="flex flex-col gap-4 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 transition hover:border-[#94A3B8]/50 dark:border-[#2B3B54] dark:bg-[#0F192A] sm:flex-row sm:items-center"
                 >
                   <span className="grid size-11 place-items-center rounded-2xl bg-[#1B2A41] font-bold text-white">
                     {(profile.display_name ?? profile.email)
