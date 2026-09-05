@@ -1,5 +1,6 @@
-import { CircleDollarSign, LockKeyhole, Sparkles } from "lucide-react";
+import { LockKeyhole, Sparkles } from "lucide-react";
 import { signIn, signUp } from "./actions";
+import { DivvyLogo } from "@/components/brand/divvy-logo";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,9 +20,7 @@ export default async function AuthPage({
         <div className="pointer-events-none absolute -right-36 -top-36 size-[34rem] rounded-full bg-[#3B82F6]/20 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-56 -left-40 size-[32rem] rounded-full bg-[#1B2A41] blur-3xl" />
         <div className="relative flex items-center gap-3">
-          <span className="grid size-10 place-items-center rounded-xl bg-[#3B82F6] shadow-[0_10px_30px_rgba(59,130,246,.3)]">
-            <CircleDollarSign />
-          </span>
+          <DivvyLogo className="size-11 shadow-[0_10px_30px_rgba(59,130,246,.3)] ring-1 ring-white/10" />
           <span className="text-2xl font-bold tracking-[-0.04em]">Divvy</span>
         </div>
         <div className="relative max-w-xl">
@@ -46,9 +45,7 @@ export default async function AuthPage({
           <CardContent className="p-7 sm:p-10">
             <div className="mb-7 lg:hidden">
               <div className="flex items-center gap-2 text-xl font-extrabold">
-                <span className="grid size-9 place-items-center rounded-xl bg-[#3B82F6] text-white">
-                  <CircleDollarSign className="size-5" />
-                </span>
+                <DivvyLogo className="size-9 shadow-sm" />
                 Divvy
               </div>
             </div>

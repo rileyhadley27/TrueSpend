@@ -1,14 +1,8 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import {
-  ArrowLeft,
-  Check,
-  CircleDollarSign,
-  Clock3,
-  ShieldCheck,
-  X,
-} from "lucide-react";
+import { ArrowLeft, Check, Clock3, ShieldCheck, X } from "lucide-react";
 import { decideSignup } from "./actions";
+import { DivvyLogo } from "@/components/brand/divvy-logo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -34,9 +28,7 @@ export default async function AdminPage() {
       <header className="mx-auto max-w-6xl rounded-2xl bg-[#0A0F1E] text-white shadow-[0_18px_50px_rgba(10,15,30,.2)] ring-1 ring-white/8">
         <div className="flex h-16 items-center justify-between px-4 sm:px-5">
           <Link href="/" className="flex items-center gap-3 font-bold">
-            <span className="grid size-9 place-items-center rounded-xl bg-[#3B82F6] shadow-[0_8px_20px_rgba(59,130,246,.3)]">
-              <CircleDollarSign className="size-5" />
-            </span>
+            <DivvyLogo className="size-9 shadow-[0_8px_20px_rgba(59,130,246,.3)] ring-1 ring-white/10" />
             Divvy
           </Link>
           <Badge className="border-0 bg-[#3B82F6]/18 text-[#BFDBFE]">

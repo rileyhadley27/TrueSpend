@@ -1,5 +1,6 @@
-import { Clock3, CircleDollarSign } from "lucide-react";
+import { Clock3 } from "lucide-react";
 import { signOut } from "@/app/auth/actions";
+import { DivvyLogo } from "@/components/brand/divvy-logo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -8,9 +9,7 @@ export default function PendingPage() {
     <main className="grid min-h-screen place-items-center p-5">
       <Card className="surface-card max-w-lg rounded-[28px] text-center">
         <CardContent className="p-9 sm:p-11">
-          <div className="mx-auto grid size-12 place-items-center rounded-2xl bg-[#0A0F1E] text-white shadow-[0_10px_30px_rgba(10,15,30,.2)]">
-            <CircleDollarSign />
-          </div>
+          <DivvyLogo className="mx-auto size-12 rounded-2xl shadow-[0_10px_30px_rgba(10,15,30,.2)]" />
           <span className="mx-auto mt-8 grid size-14 place-items-center rounded-full bg-[#E8F1FF] text-[#3B82F6] ring-8 ring-[#3B82F6]/5">
             <Clock3 />
           </span>

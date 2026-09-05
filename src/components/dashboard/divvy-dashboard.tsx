@@ -36,6 +36,7 @@ import {
 } from "recharts";
 
 import { signOut } from "@/app/auth/actions";
+import { DivvyLogo } from "@/components/brand/divvy-logo";
 import { ImportDialog } from "./import-dialog";
 import { AccountDialog } from "./account-dialog";
 import { ManualDialog } from "./manual-dialog";
@@ -475,9 +476,7 @@ function Header({
           onClick={() => setView("overview")}
           className="flex items-center gap-3"
         >
-          <span className="grid size-9 place-items-center rounded-xl bg-[#3B82F6] text-white shadow-[0_8px_20px_rgba(59,130,246,.32)]">
-            <CircleDollarSign className="size-5" />
-          </span>
+          <DivvyLogo className="size-9 shadow-[0_8px_20px_rgba(59,130,246,.28)] ring-1 ring-white/10" />
           <span className="text-lg font-bold tracking-[-0.04em] sm:text-xl">
             Divvy
           </span>
