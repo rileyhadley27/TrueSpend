@@ -101,6 +101,9 @@ export function ImportDialog({
   const validCount = candidates.filter(
     (candidate) => candidate.errors.length === 0,
   ).length;
+  const statementAlreadyImported = error
+    .toLowerCase()
+    .includes("already imported");
 
   async function handleFile(selected?: File) {
     if (!selected) return;
@@ -328,9 +331,20 @@ export function ImportDialog({
             </div>
           )}
           {error && (
-            <Alert variant="destructive">
-              <AlertCircle />
-              <AlertTitle>Import needs attention</AlertTitle>
+            <Alert
+              variant={statementAlreadyImported ? "default" : "destructive"}
+              className={
+                statementAlreadyImported
+                  ? "border-[#3B82F6]/30 bg-[#E8F1FF] text-[#1D4ED8] dark:bg-[#1B2A41] dark:text-[#93C5FD]"
+                  : undefined
+              }
+            >
+              {statementAlreadyImported ? <CheckCircle2 /> : <AlertCircle />}
+              <AlertTitle>
+                {statementAlreadyImported
+                  ? "Statement already imported"
+                  : "Import needs attention"}
+              </AlertTitle>
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}

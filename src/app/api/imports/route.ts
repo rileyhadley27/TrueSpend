@@ -15,6 +15,28 @@ const candidateSchema = z.object({
   errors: z.array(z.string()),
 });
 
+function duplicateImportResponse(
+  fileName: string,
+  committedAt?: string | null,
+) {
+  const importedOn = committedAt
+    ? ` on ${new Intl.DateTimeFormat("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        timeZone: "UTC",
+      }).format(new Date(committedAt))}`
+    : "";
+
+  return Response.json(
+    {
+      code: "statement_already_imported",
+      error: `“${fileName}” was already imported${importedOn}. No duplicate transactions were added.`,
+    },
+    { status: 409 },
+  );
+}
+
 export async function POST(request: Request) {
   const supabase = await createClient();
   const {
@@ -45,6 +67,13 @@ export async function POST(request: Request) {
       { error: "Choose a statement no larger than 20 MB." },
       { status: 400 },
     );
+  if (!/^[a-f0-9]{64}$/.test(fileHash))
+    return Response.json(
+      {
+        error: "The statement fingerprint was invalid. Choose the file again.",
+      },
+      { status: 400 },
+    );
   if (
     !fileName.toLowerCase().endsWith(".csv") &&
     !fileName.toLowerCase().endsWith(".pdf")
@@ -66,6 +95,23 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
+  const { data: existingImport, error: duplicateLookupError } = await supabase
+    .from("import_batches")
+    .select("file_name,committed_at")
+    .eq("user_id", user.id)
+    .eq("file_hash", fileHash)
+    .maybeSingle();
+  if (duplicateLookupError)
+    return Response.json(
+      { error: "Divvy could not check this statement. Please try again." },
+      { status: 500 },
+    );
+  if (existingImport)
+    return duplicateImportResponse(
+      existingImport.file_name,
+      existingImport.committed_at,
+    );
+
   const importId = crypto.randomUUID();
   const safeName = fileName.replace(/[^a-zA-Z0-9._-]/g, "_");
   const storagePath = `${user.id}/${importId}/${safeName}`;
@@ -89,6 +135,7 @@ export async function POST(request: Request) {
   });
   if (error) {
     await supabase.storage.from("statements").remove([storagePath]);
+    if (error.code === "23505") return duplicateImportResponse(fileName);
     return Response.json({ error: error.message }, { status: 400 });
   }
   const mappingValue = form.get("mapping");
