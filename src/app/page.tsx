@@ -83,6 +83,10 @@ export default async function Home() {
     })),
   };
   return (
-    <TrueSpendDashboard initialData={data} userName={profile.display_name} />
+    <TrueSpendDashboard
+      initialData={data}
+      userName={profile.display_name}
+      isAdmin={user.app_metadata.role === "admin"}
+    />
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import {
   ArrowDownLeft,
@@ -15,9 +16,11 @@ import {
   Landmark,
   LayoutDashboard,
   ListFilter,
+  LogOut,
   Plus,
   ReceiptText,
   Search,
+  ShieldCheck,
   Sparkles,
   Upload,
   WalletCards,
@@ -32,6 +35,7 @@ import {
   YAxis,
 } from "recharts";
 
+import { signOut } from "@/app/auth/actions";
 import { ImportDialog } from "./import-dialog";
 import { AccountDialog } from "./account-dialog";
 import { ManualDialog } from "./manual-dialog";
@@ -41,6 +45,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -64,10 +76,12 @@ export function TrueSpendDashboard({
   initialData,
   demoMode = false,
   userName = "Riley",
+  isAdmin = false,
 }: {
   initialData: DashboardData;
   demoMode?: boolean;
   userName?: string;
+  isAdmin?: boolean;
 }) {
   const [data, setData] = useState(initialData);
   const [view, setView] = useState<View>("overview");
@@ -311,6 +325,7 @@ export function TrueSpendDashboard({
         setView={setView}
         userName={userName}
         demoMode={demoMode}
+        isAdmin={isAdmin}
       />
       <main className="mx-auto max-w-[1440px] px-5 py-7 lg:px-8 lg:py-9">
         <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -446,11 +461,13 @@ function Header({
   setView,
   userName,
   demoMode,
+  isAdmin,
 }: {
   view: View;
   setView: (view: View) => void;
   userName: string;
   demoMode: boolean;
+  isAdmin: boolean;
 }) {
   return (
     <header className="sticky top-0 z-20 border-b border-black/5 bg-white/85 backdrop-blur-xl">
@@ -487,18 +504,60 @@ function Header({
               {item.label}
             </button>
           ))}
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-[#667069]"
+            >
+              <ShieldCheck className="size-4" />
+              Approvals
+            </Link>
+          )}
         </nav>
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="icon" aria-label="Notifications">
             <Bell />
           </Button>
-          <button className="flex items-center gap-2 rounded-xl border border-black/7 bg-white px-2 py-1.5 text-sm font-semibold shadow-sm">
-            <span className="grid size-7 place-items-center rounded-lg bg-[#ffd8bd] text-xs font-bold">
-              {userName.slice(0, 2).toUpperCase()}
-            </span>
-            <span className="hidden sm:inline">{userName}</span>
-            <ChevronDown className="size-3.5" />
-          </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-2 rounded-xl border border-black/7 bg-white px-2 py-1.5 text-sm font-semibold shadow-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
+              <span className="grid size-7 place-items-center rounded-lg bg-[#ffd8bd] text-xs font-bold">
+                {userName.slice(0, 2).toUpperCase()}
+              </span>
+              <span className="hidden sm:inline">{userName}</span>
+              <ChevronDown className="size-3.5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-52">
+              <DropdownMenuLabel className="px-2 py-1.5">
+                Signed in as {userName}
+              </DropdownMenuLabel>
+              {isAdmin && (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    render={<Link href="/admin" />}
+                    className="px-2 py-2"
+                  >
+                    <ShieldCheck />
+                    Pending approvals
+                  </DropdownMenuItem>
+                </>
+              )}
+              {!demoMode && (
+                <>
+                  <DropdownMenuSeparator />
+                  <form action={signOut}>
+                    <DropdownMenuItem
+                      render={<button type="submit" />}
+                      className="w-full px-2 py-2"
+                    >
+                      <LogOut />
+                      Sign out
+                    </DropdownMenuItem>
+                  </form>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
       <nav
@@ -514,6 +573,14 @@ function Header({
             {item}
           </button>
         ))}
+        {isAdmin && (
+          <Link
+            href="/admin"
+            className="flex-1 py-2 text-center text-xs font-bold text-[#7c8580]"
+          >
+            Approvals
+          </Link>
+        )}
       </nav>
     </header>
   );
