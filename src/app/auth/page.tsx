@@ -1,4 +1,10 @@
-import { LockKeyhole, Sparkles } from "lucide-react";
+import {
+  CheckCircle2,
+  Link2,
+  LockKeyhole,
+  ReceiptText,
+  Sparkles,
+} from "lucide-react";
 import { signIn, signUp } from "./actions";
 import { DivvyLogo } from "@/components/brand/divvy-logo";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -23,25 +29,63 @@ export default async function AuthPage({
           <DivvyLogo className="size-11 shadow-[0_10px_30px_rgba(59,130,246,.3)] ring-1 ring-white/10" />
           <span className="text-2xl font-bold tracking-[-0.04em]">Divvy</span>
         </div>
-        <div className="relative max-w-xl">
+        <div className="relative max-w-2xl">
           <span className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#3B82F6]/30 bg-[#3B82F6]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[.14em] text-[#93C5FD]">
             <Sparkles className="size-3.5" /> Clear money, confident decisions
           </span>
-          <h1 className="text-5xl font-bold leading-[1.02] tracking-[-.055em] xl:text-6xl">
-            Your money makes more sense when everything connects.
+          <h1 className="display-heading text-6xl leading-[.96] xl:text-7xl">
+            Your money. <br />
+            Your rules. <br />
+            <span className="text-[#3B82F6]">One true picture.</span>
           </h1>
           <p className="mt-7 max-w-lg text-lg leading-8 text-[#94A3B8]">
             Match repayments, remove duplicate transfers, and see what you truly
             spent—without rebuilding a spreadsheet every month.
           </p>
         </div>
-        <div className="relative flex items-center gap-3 text-xs text-[#94A3B8]">
-          <span className="size-1.5 rounded-full bg-[#3B82F6]" />
-          Private by design · Original records preserved
+        <div className="relative">
+          <div className="grid grid-cols-3 gap-2 rounded-[24px] border border-white/10 bg-white/5 p-3 backdrop-blur-xl">
+            <div className="col-span-3 flex items-center justify-between rounded-2xl bg-white/7 p-3">
+              <div className="flex items-center gap-3">
+                <span className="grid size-9 place-items-center rounded-xl bg-[#3B82F6] text-white">
+                  <CheckCircle2 className="size-4" />
+                </span>
+                <div>
+                  <p className="text-sm font-semibold">Monthly view ready</p>
+                  <p className="text-xs text-[#94A3B8]">
+                    Every adjustment stays auditable
+                  </p>
+                </div>
+              </div>
+              <span className="rounded-full bg-[#3B82F6]/15 px-2.5 py-1 text-xs font-semibold text-[#93C5FD]">
+                Reconciled
+              </span>
+            </div>
+            <div className="rounded-2xl bg-white/5 p-3">
+              <ReceiptText className="size-4 text-[#60A5FA]" />
+              <p className="mt-3 text-xs text-[#94A3B8]">Statements</p>
+              <p className="mt-0.5 text-sm font-semibold">Preserved</p>
+            </div>
+            <div className="rounded-2xl bg-white/5 p-3">
+              <Link2 className="size-4 text-[#60A5FA]" />
+              <p className="mt-3 text-xs text-[#94A3B8]">Repayments</p>
+              <p className="mt-0.5 text-sm font-semibold">Connected</p>
+            </div>
+            <div className="rounded-2xl bg-white/5 p-3">
+              <Sparkles className="size-4 text-[#60A5FA]" />
+              <p className="mt-3 text-xs text-[#94A3B8]">True view</p>
+              <p className="mt-0.5 text-sm font-semibold">Clear</p>
+            </div>
+          </div>
+          <div className="mt-5 flex items-center gap-3 text-xs text-[#94A3B8]">
+            <span className="size-1.5 rounded-full bg-[#3B82F6]" />
+            Private by design · Original records preserved
+          </div>
         </div>
       </section>
-      <section className="flex items-center justify-center p-5 sm:p-10">
-        <Card className="surface-card w-full max-w-md rounded-[28px]">
+      <section className="relative flex items-center justify-center overflow-hidden p-5 sm:p-10">
+        <div className="pointer-events-none absolute right-0 top-0 size-80 rounded-full bg-[#3B82F6]/10 blur-3xl" />
+        <Card className="glass-panel relative w-full max-w-md rounded-[32px]">
           <CardContent className="p-7 sm:p-10">
             <div className="mb-7 lg:hidden">
               <div className="flex items-center gap-2 text-xl font-extrabold">

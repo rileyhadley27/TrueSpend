@@ -324,66 +324,91 @@ export function DivvyDashboard({
         onConnectAccount={() => setAccountOpen(true)}
       />
       <main className="mx-auto max-w-[1320px] px-5 py-8 pb-28 lg:px-8 lg:py-12">
-        <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div className="eyebrow mb-3 flex items-center gap-2">
-              <Sparkles className="size-3.5" /> Financial command center
+        <div className="enter-up mb-12 grid gap-8 lg:grid-cols-[1.1fr_.9fr] lg:items-end">
+          <div className="max-w-3xl">
+            <div className="eyebrow mb-4 flex items-center gap-2">
+              <Sparkles className="size-3.5" />
+              {view === "overview"
+                ? `Welcome back, ${userName}`
+                : "Financial command center"}
             </div>
-            <h1 className="text-3xl font-bold tracking-[-0.045em] sm:text-[2.65rem] sm:leading-none">
-              {view === "overview"
-                ? `Good morning, ${userName}.`
-                : view === "transactions"
-                  ? "Every dollar, in one place."
-                  : "Your true monthly picture."}
+            <h1 className="display-heading text-5xl leading-[.96] sm:text-6xl lg:text-[4.6rem]">
+              {view === "overview" ? (
+                <>
+                  Every dollar. <br />
+                  <span className="text-[#3B82F6]">One true picture.</span>
+                </>
+              ) : view === "transactions" ? (
+                <>
+                  Every transaction. <br />
+                  <span className="text-[#3B82F6]">Nothing lost.</span>
+                </>
+              ) : (
+                <>
+                  The month, <br />
+                  <span className="text-[#3B82F6]">finally adding up.</span>
+                </>
+              )}
             </h1>
-            <p className="mt-3 text-sm text-[#64748B] sm:text-base dark:text-[#94A3B8]">
+            <p className="mt-6 max-w-2xl text-base leading-7 text-[#64748B] sm:text-lg dark:text-[#94A3B8]">
               {view === "overview"
-                ? `${monthLabel} has ${tasks.length} item${tasks.length === 1 ? "" : "s"} ready for review.`
+                ? `Divvy connects repayments, transfers, and statements so ${monthLabel} reflects what you actually spent.`
                 : view === "transactions"
                   ? "Search the ledger without losing the original statement facts."
                   : "Switch between adjusted spending and real cash movement."}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <label className="field-control flex h-10 items-center gap-2 rounded-xl border px-3 text-sm font-semibold shadow-sm transition">
-              <CalendarDays className="size-4" />
-              <input
-                aria-label="Reporting month"
-                type="month"
-                value={month}
-                onChange={(event) => setMonth(event.target.value)}
-                className="bg-transparent outline-none"
-              />
-            </label>
-            <Button
-              variant="outline"
-              onClick={() => setCategoryOpen(true)}
-              className="h-10 rounded-xl bg-white px-4 shadow-sm dark:bg-[#111B2E]"
-            >
-              Add category
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => setAccountOpen(true)}
-              className="h-10 rounded-xl bg-white px-4 shadow-sm dark:bg-[#111B2E]"
-            >
-              <Landmark /> Add account
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => setManualOpen(true)}
-              disabled={!data.accounts.length}
-              className="h-10 rounded-xl bg-white px-4 shadow-sm dark:bg-[#111B2E]"
-            >
-              <Plus /> Add transaction
-            </Button>
-            <Button
-              onClick={() => setImportOpen(true)}
-              disabled={!data.accounts.length}
-              className="h-10 rounded-xl bg-[#3B82F6] px-4 text-white shadow-[0_8px_24px_rgba(59,130,246,.24)] hover:bg-[#2563EB]"
-            >
-              <Upload /> Import statement
-            </Button>
+          <div className="glass-panel enter-up-delayed rounded-[28px] p-3.5 sm:p-4">
+            <div className="mb-3 flex items-center justify-between px-1">
+              <p className="text-xs font-bold uppercase tracking-[.13em] text-muted-foreground">
+                Quick actions
+              </p>
+              <span className="flex items-center gap-1.5 text-xs font-semibold text-[#2563EB] dark:text-[#93C5FD]">
+                <span className="size-1.5 rounded-full bg-[#3B82F6]" />
+                {tasks.length} ready to review
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <label className="field-control flex h-10 items-center gap-2 rounded-xl border px-3 text-sm font-semibold shadow-sm transition">
+                <CalendarDays className="size-4" />
+                <input
+                  aria-label="Reporting month"
+                  type="month"
+                  value={month}
+                  onChange={(event) => setMonth(event.target.value)}
+                  className="bg-transparent outline-none"
+                />
+              </label>
+              <Button
+                variant="outline"
+                onClick={() => setCategoryOpen(true)}
+                className="h-10 rounded-xl bg-white px-4 shadow-sm dark:bg-[#111B2E]"
+              >
+                Add category
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setAccountOpen(true)}
+                className="h-10 rounded-xl bg-white px-4 shadow-sm dark:bg-[#111B2E]"
+              >
+                <Landmark /> Add account
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setManualOpen(true)}
+                disabled={!data.accounts.length}
+                className="h-10 rounded-xl bg-white px-4 shadow-sm dark:bg-[#111B2E]"
+              >
+                <Plus /> Add transaction
+              </Button>
+              <Button
+                onClick={() => setImportOpen(true)}
+                disabled={!data.accounts.length}
+                className="h-10 rounded-xl bg-[#3B82F6] px-4 text-white shadow-[0_8px_24px_rgba(59,130,246,.24)] hover:bg-[#2563EB]"
+              >
+                <Upload /> Import statement
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -575,16 +600,18 @@ function Overview({
 }) {
   return (
     <>
-      <section className="grid gap-5 lg:grid-cols-[1.55fr_0.8fr]">
-        <Card className="overflow-hidden rounded-[28px] border-0 bg-[#0A0F1E] py-0 text-white shadow-[0_24px_60px_rgba(10,15,30,.18)] ring-0">
-          <CardContent className="grid min-h-[325px] gap-8 p-7 md:grid-cols-[1fr_230px] md:p-9">
+      <section className="enter-up-delayed grid gap-5 lg:grid-cols-[1.55fr_0.8fr]">
+        <Card className="relative overflow-hidden rounded-[32px] border-0 bg-[#0A0F1E] py-0 text-white shadow-[0_30px_80px_rgba(10,15,30,.2)] ring-0">
+          <div className="pointer-events-none absolute -right-24 -top-36 size-[28rem] rounded-full bg-[#3B82F6]/18 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-32 left-1/4 size-64 rounded-full bg-[#1B2A41] blur-3xl" />
+          <CardContent className="relative grid min-h-[350px] gap-8 p-7 md:grid-cols-[1fr_230px] md:p-10">
             <div className="flex flex-col justify-between">
               <div>
                 <Badge className="border-0 bg-[#3B82F6]/18 px-3 py-1.5 text-[#BFDBFE]">
                   {monthLabel.toUpperCase()}
                 </Badge>
-                <p className="mt-7 text-sm font-medium text-white/55">
-                  You have left over
+                <p className="mt-9 text-sm font-medium text-white/55">
+                  Available after true spend
                 </p>
                 <p className="mt-1 text-5xl font-extrabold tracking-[-0.06em] sm:text-6xl">
                   {formatMoney(summary.leftoverCents)}
@@ -636,8 +663,8 @@ function Overview({
             </div>
           </CardContent>
         </Card>
-        <Card className="surface-card rounded-[28px] py-0">
-          <CardContent className="flex h-full flex-col p-7">
+        <Card className="surface-card overflow-hidden rounded-[32px] bg-gradient-to-br from-white to-[#E8F1FF]/55 py-0 dark:from-[#111B2E] dark:to-[#152746]">
+          <CardContent className="flex h-full flex-col p-7 sm:p-8">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm font-semibold text-[#64748B] dark:text-[#94A3B8]">
@@ -687,11 +714,14 @@ function Overview({
           </CardContent>
         </Card>
       </section>
-      <section className="mt-7 grid gap-6 xl:grid-cols-[1.35fr_0.65fr]">
+      <section className="mt-10 grid gap-7 xl:grid-cols-[1.35fr_0.65fr]">
         <div>
-          <div className="mb-3 flex items-end justify-between">
+          <div className="mb-4 flex items-end justify-between">
             <div>
-              <h2 className="text-xl font-extrabold">Reconciliation inbox</h2>
+              <p className="eyebrow mb-2">Suggested matches</p>
+              <h2 className="text-2xl font-bold tracking-[-0.035em]">
+                Reconciliation inbox
+              </h2>
               <p className="mt-1 text-sm text-[#64748B] dark:text-[#94A3B8]">
                 Every match waits for your approval.
               </p>
